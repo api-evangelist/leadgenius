@@ -1,0 +1,52 @@
+generated: '2026-07-19'
+method: searched
+source: openapi/leadgenius-enrichment-api-openapi.yml
+docs: https://docs.leadgenius.com/#authentication
+description: >-
+  LeadGenius authenticates every API request with a single account API key sent in the Authorization
+  header using the `Token` scheme. There is no OAuth, no OpenID Connect, no scope surface and no
+  per-request signing. Derived from the captured OpenAPI securitySchemes and upgraded from the
+  published authentication section of the API reference.
+summary:
+  types:
+    - apiKey
+  api_key_in:
+    - header
+  oauth2_flows: []
+  scopes: none
+schemes:
+  - name: TokenAuth
+    type: apiKey
+    in: header
+    parameter: Authorization
+    value_format: 'Token {apikey}'
+    description: >-
+      LeadGenius uses API keys to allow access to the API. The key must be included in all API
+      requests to the server in a header of the form `Authorization: Token {apikey}`, alongside
+      `Content-Type: application/json`.
+    sources:
+      - openapi/leadgenius-enrichment-api-openapi.yml
+      - https://docs.leadgenius.com/#authentication
+provisioning:
+  self_serve: https://app.leadgenius.com/sign-up
+  self_serve_note: >-
+    LeadGenius launched a self-serve API trial in 2026 — registering issues an API key without human
+    interaction. See
+    https://www.leadgenius.com/resources/introducing-the-new-leadgenius-api-experience-real-time-enrichment-zero-bottlenecks
+  sales: sales@leadgenius.com
+  sales_note: >-
+    LeadGenius customers may also contact Sales or their Customer Success rep for an API subscription
+    and key.
+  login: https://app.leadgenius.com/sign-in
+rotation:
+  documented: false
+key_scoping:
+  documented: false
+  note: A single account-level key; no restricted or publishable key classes are documented.
+errors:
+  invalid_key:
+    status: 401
+    meaning: Unauthorized -- Your API key is invalid.
+related:
+  conventions: conventions/leadgenius-conventions.yml
+  errors: errors/leadgenius-problem-types.yml
