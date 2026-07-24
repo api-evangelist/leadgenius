@@ -1,0 +1,261 @@
+openapi: 3.1.0
+info:
+  title: LeadGenius Enrichment Campaigns API
+  version: v1
+  summary: RESTful API for B2B account and contact enrichment, contact append, exclusion lists and rapid (real-time) enrichment.
+  description: 'The LeadGenius public API is a RESTful API that sends and receives records from the LeadGenius Dashboard product. Records are associated to Campaigns in Dashboard and consist of Accounts that can optionally include related Contact records. A Campaign can be created in Dashboard using the Dashboard Wizard or via the API; any Campaign in Dashboard can be accessed using the API.
+
+
+    Two modes are offered. **Campaign (batch) enrichment** uploads records to a Campaign, LeadGenius enriches or appends contacts, and a webhook fires when records are finalized so they can be retrieved. **Rapid enrichment** submits a single account or contact (or a get_contacts request) for real-time enrichment and retrieves the enriched record by id.
+
+
+    This description was captured by the API Evangelist enrichment pipeline from the published LeadGenius API reference at https://docs.leadgenius.com/ — LeadGenius does not publish a machine readable OpenAPI definition. Every path, method, parameter, field and error code below is transcribed from that reference and its Python/JavaScript/cURL samples.'
+  termsOfService: https://www.leadgenius.com/legal/terms
+  contact:
+    name: LeadGenius Sales
+    email: sales@leadgenius.com
+    url: https://docs.leadgenius.com/
+servers:
+- url: https://leadgenius.com
+  description: Production
+security:
+- TokenAuth: []
+tags:
+- name: Campaigns
+  description: Create, update and inspect enrichment campaigns.
+paths:
+  /api/v1/enrichment/campaigns/:
+    post:
+      tags:
+      - Campaigns
+      operationId: createCampaign
+      summary: Create an API campaign
+      description: Create a Campaign that records will be uploaded to. Three kinds of campaign can be created via the API — Single Fields (Account or Contact), Standard Fields (Account or Contact), and Contact Fields. The campaign definition determines whether uploaded records are enriched, appended with new contacts, or both.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CampaignCreateRequest'
+            example:
+              name: net new org contact precision
+              precision: true
+              webhook_url: http://test.com/webhook/
+              columns:
+              - org_website
+              - org_company_name
+              - contact_email
+              - contact_linkedin_url
+              contacts_per_company: 2
+              contacts:
+              - priority: 1
+                seniority: C-level
+                department: Administrative
+                keywords:
+                - test
+                condition: AND
+              - priority: 2
+                department: Business Development
+      responses:
+        '200':
+          description: Campaign created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Campaign'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /api/v1/enrichment/update/{slug}/:
+    parameters:
+    - $ref: '#/components/parameters/CampaignSlug'
+    patch:
+      tags:
+      - Campaigns
+      operationId: updateCampaign
+      summary: Update a campaign
+      description: Update the campaign's webhook URL.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                webhook_url:
+                  type: string
+                  format: uri
+                  description: URL to call when record(s) are finalized on the LeadGenius side.
+              example:
+                webhook_url: https://test.com/webhook/
+      responses:
+        '200':
+          description: Campaign updated.
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+components:
+  responses:
+    Forbidden:
+      description: Forbidden -- The resource requested is hidden for administrators only.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Not Found -- The specified resource could not be found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Unauthorized -- Your API key is invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: Bad Request -- Your request is invalid in some way.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    TooManyRequests:
+      description: Too Many Requests -- You're exceeding your rate-limits (50 requests per minute).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: Internal Server Error -- We had a problem with our server. Try again later.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    CampaignCreateRequest:
+      type: object
+      required:
+      - name
+      - columns
+      properties:
+        name:
+          type: string
+          description: Campaign name.
+        precision:
+          type: boolean
+          description: If false the campaign will be completed without human review.
+        columns:
+          type: array
+          description: The fields you require to be included in the job and returned to you.
+          items:
+            type: string
+        contacts_per_company:
+          type: integer
+          description: Number of contacts per company.
+        webhook_url:
+          type: string
+          format: uri
+          description: URL to call when record(s) are finalized on the LeadGenius side.
+        contacts:
+          type: array
+          description: Requested contacts definition.
+          items:
+            $ref: '#/components/schemas/ContactRequirement'
+        companies:
+          type: object
+          description: Company filters for a net-new company campaign. Currently only zip_code filtering is supported.
+    ContactRequirement:
+      type: object
+      properties:
+        priority:
+          type: integer
+        seniority:
+          $ref: '#/components/schemas/Seniority'
+        department:
+          $ref: '#/components/schemas/Department'
+        keywords:
+          type: array
+          items:
+            type: string
+        condition:
+          type: string
+    Seniority:
+      type: string
+      description: Contact seniority selector.
+      enum:
+      - VP+
+      - Director+
+      - Manager+
+      - C-level
+      - VP
+      - Director
+      - Manager
+      - Senior
+      - Entry level
+    Error:
+      type: object
+      description: 'Django-REST-framework style validation envelope — a map of field name to an array of messages, e.g. {"type": ["This field is required."]}.'
+      additionalProperties:
+        type: array
+        items:
+          type: string
+    Campaign:
+      type: object
+      properties:
+        slug:
+          type: string
+          description: Campaign slug/identifier on the LeadGenius platform.
+        name:
+          type: string
+        webhook_url:
+          type: string
+          format: uri
+    Department:
+      type: string
+      description: Contact department selector.
+      enum:
+      - Business Development
+      - Consulting
+      - Design
+      - Education
+      - Engineering
+      - Executive
+      - Finance
+      - Health Services
+      - Human Resources
+      - Information Technology
+      - Legal
+      - Marketing
+      - Media and Communications
+      - Operations
+      - Product
+      - Sales
+  parameters:
+    CampaignSlug:
+      name: slug
+      in: path
+      required: true
+      description: Campaign slug/identifier on the LeadGenius platform.
+      schema:
+        type: string
+  securitySchemes:
+    TokenAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'LeadGenius uses API keys. Include the key in every request as `Authorization: Token {apikey}`.'

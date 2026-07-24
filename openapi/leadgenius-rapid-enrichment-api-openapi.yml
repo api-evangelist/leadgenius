@@ -1,0 +1,397 @@
+openapi: 3.1.0
+info:
+  title: LeadGenius Enrichment Campaigns Rapid Enrichment API
+  version: v1
+  summary: RESTful API for B2B account and contact enrichment, contact append, exclusion lists and rapid (real-time) enrichment.
+  description: 'The LeadGenius public API is a RESTful API that sends and receives records from the LeadGenius Dashboard product. Records are associated to Campaigns in Dashboard and consist of Accounts that can optionally include related Contact records. A Campaign can be created in Dashboard using the Dashboard Wizard or via the API; any Campaign in Dashboard can be accessed using the API.
+
+
+    Two modes are offered. **Campaign (batch) enrichment** uploads records to a Campaign, LeadGenius enriches or appends contacts, and a webhook fires when records are finalized so they can be retrieved. **Rapid enrichment** submits a single account or contact (or a get_contacts request) for real-time enrichment and retrieves the enriched record by id.
+
+
+    This description was captured by the API Evangelist enrichment pipeline from the published LeadGenius API reference at https://docs.leadgenius.com/ — LeadGenius does not publish a machine readable OpenAPI definition. Every path, method, parameter, field and error code below is transcribed from that reference and its Python/JavaScript/cURL samples.'
+  termsOfService: https://www.leadgenius.com/legal/terms
+  contact:
+    name: LeadGenius Sales
+    email: sales@leadgenius.com
+    url: https://docs.leadgenius.com/
+servers:
+- url: https://leadgenius.com
+  description: Production
+security:
+- TokenAuth: []
+tags:
+- name: Rapid Enrichment
+  description: Real-time single-record account/contact enrichment and contact append.
+paths:
+  /api/v1/enrichment/rapid/:
+    post:
+      tags:
+      - Rapid Enrichment
+      operationId: createRapidEnrichmentRequest
+      summary: Submit a rapid enrichment request
+      description: Submit a real-time enrichment request. `type` selects the mode — `contact` enriches a single contact, `account` enriches a single company, and `get_contacts` returns matched contacts for a company using the supplied contacts definition.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RapidEnrichmentRequest'
+            example:
+              type: get_contacts
+              data:
+                org_company_name: microsoft
+                org_website: microsoft.com
+                org_linkedin_url: linkedin.com/in/microsoft
+              contacts:
+                contacts_per_company: 1
+                seniority: C-level
+                title: Consulting
+      responses:
+        '200':
+          description: Enrichment request accepted; poll or retrieve the record by id.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnrichmentRequest'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    get:
+      tags:
+      - Rapid Enrichment
+      operationId: listEnrichmentRequests
+      summary: List enrichment requests
+      description: Get a list of enrichment requests, optionally filtered by id, status, type or created date.
+      parameters:
+      - name: id
+        in: query
+        required: false
+        description: Request id.
+        schema:
+          type: integer
+      - name: status
+        in: query
+        required: false
+        description: Enrichment request status.
+        schema:
+          type: string
+          enum:
+          - scheduled
+          - in_progress
+          - erred
+          - cancelled
+          - ok
+      - name: enrichment_type
+        in: query
+        required: false
+        description: Enrichment request type.
+        schema:
+          type: string
+          enum:
+          - contact
+          - account
+          - get_contacts
+      - name: created_from
+        in: query
+        required: false
+        description: Created-date filter (from). Formats 2022-01-02 or 2022-01-03T18:03:11Z.
+        schema:
+          type: string
+      - name: created_to
+        in: query
+        required: false
+        description: Created-date filter (to). Formats 2022-01-02 or 2022-01-03T18:03:11Z.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A list of enrichment requests.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EnrichmentRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /api/v1/enrichment/rapid/{id}/:
+    parameters:
+    - name: id
+      in: path
+      required: true
+      description: Enrichment request id.
+      schema:
+        type: integer
+    get:
+      tags:
+      - Rapid Enrichment
+      operationId: retrieveEnrichedRecord
+      summary: Retrieve an enriched record
+      description: Get the enriched record data for a rapid enrichment request.
+      responses:
+        '200':
+          description: The enriched record.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnrichedRecord'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+components:
+  schemas:
+    Record:
+      type: object
+      description: An Account record, optionally carrying related Contact fields.
+      properties:
+        org_record_id:
+          type: string
+          description: The record ID of the company or account (e.g. your CRM account ID).
+        org_company_name:
+          type: string
+          description: The name of the company.
+        org_website:
+          type: string
+          description: The URL for the company's website.
+        org_linkedin_url:
+          type: string
+          description: The URL of the company's LinkedIn profile.
+        org_phone:
+          type: string
+          description: The main phone number of the company.
+        org_street:
+          type: string
+        org_city:
+          type: string
+        org_state:
+          type: string
+        org_zip_code:
+          type: string
+        org_country:
+          type: string
+        org_industry:
+          type: string
+        org_num_employees:
+          type: string
+          description: The number of employees at the company, expressed as a range.
+        org_num_employees_exact:
+          type: integer
+        org_annual_revenue:
+          type: string
+        contact_record_id:
+          type: string
+          description: The record ID of the contact (e.g. your CRM contact or lead ID).
+        contact_first_name:
+          type: string
+        contact_last_name:
+          type: string
+        contact_email:
+          type: string
+        contact_job_title:
+          type: string
+        contact_linkedin_url:
+          type: string
+        contact_department:
+          $ref: '#/components/schemas/Department'
+        contact_seniority:
+          type: string
+          description: The contact's seniority level (C-Level, VP, Director, Manager, Senior, Entry Level).
+    RapidEnrichmentRequest:
+      type: object
+      required:
+      - type
+      - data
+      properties:
+        type:
+          type: string
+          enum:
+          - contact
+          - account
+          - get_contacts
+        data:
+          $ref: '#/components/schemas/Record'
+        contacts:
+          $ref: '#/components/schemas/RapidContactsSelector'
+    Department:
+      type: string
+      description: Contact department selector.
+      enum:
+      - Business Development
+      - Consulting
+      - Design
+      - Education
+      - Engineering
+      - Executive
+      - Finance
+      - Health Services
+      - Human Resources
+      - Information Technology
+      - Legal
+      - Marketing
+      - Media and Communications
+      - Operations
+      - Product
+      - Sales
+    Seniority:
+      type: string
+      description: Contact seniority selector.
+      enum:
+      - VP+
+      - Director+
+      - Manager+
+      - C-level
+      - VP
+      - Director
+      - Manager
+      - Senior
+      - Entry level
+    Error:
+      type: object
+      description: 'Django-REST-framework style validation envelope — a map of field name to an array of messages, e.g. {"type": ["This field is required."]}.'
+      additionalProperties:
+        type: array
+        items:
+          type: string
+    EnrichmentRequest:
+      type: object
+      properties:
+        id:
+          type: integer
+        status:
+          type: string
+          enum:
+          - scheduled
+          - in_progress
+          - erred
+          - cancelled
+          - ok
+        enrichment_type:
+          type: string
+          enum:
+          - contact
+          - account
+          - get_contacts
+        created:
+          type: string
+    EnrichedRecord:
+      type: object
+      description: The supported output keys for a rapid-enrichment record.
+      properties:
+        org_annual_revenue:
+          type: string
+        org_city:
+          type: string
+        org_company_name:
+          type: string
+        org_country:
+          type: string
+        org_linkedin_url:
+          type: string
+        org_num_employees:
+          type: string
+        org_state:
+          type: string
+        org_street:
+          type: string
+        org_website:
+          type: string
+        org_zip_code:
+          type: string
+        contact_city:
+          type: string
+        contact_contact_skills_lg:
+          type: string
+        contact_contact_status_lg:
+          type: string
+        contact_country:
+          type: string
+        contact_department:
+          type: string
+        contact_email:
+          type: string
+        contact_first_name:
+          type: string
+        contact_job_title:
+          type: string
+        contact_last_name:
+          type: string
+        contact_linkedin_url:
+          type: string
+        contact_phone_number:
+          type: string
+        contact_seniority:
+          type: string
+        contact_previous_company:
+          type: string
+        contact_previous_company_linkedin_lg:
+          type: string
+        contact_previous_company_website_lg:
+          type: string
+    RapidContactsSelector:
+      type: object
+      required:
+      - contacts_per_company
+      - seniority
+      - department
+      properties:
+        contacts_per_company:
+          type: integer
+          minimum: 1
+          maximum: 10
+          description: 1 to 10 contacts can be requested for the org.
+        seniority:
+          $ref: '#/components/schemas/Seniority'
+        department:
+          $ref: '#/components/schemas/Department'
+  responses:
+    NotFound:
+      description: Not Found -- The specified resource could not be found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Unauthorized -- Your API key is invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: Bad Request -- Your request is invalid in some way.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    TooManyRequests:
+      description: Too Many Requests -- You're exceeding your rate-limits (50 requests per minute).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: Internal Server Error -- We had a problem with our server. Try again later.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    TokenAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'LeadGenius uses API keys. Include the key in every request as `Authorization: Token {apikey}`.'

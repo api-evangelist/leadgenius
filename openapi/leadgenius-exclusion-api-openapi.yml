@@ -1,0 +1,137 @@
+openapi: 3.1.0
+info:
+  title: LeadGenius Enrichment Campaigns Exclusion API
+  version: v1
+  summary: RESTful API for B2B account and contact enrichment, contact append, exclusion lists and rapid (real-time) enrichment.
+  description: 'The LeadGenius public API is a RESTful API that sends and receives records from the LeadGenius Dashboard product. Records are associated to Campaigns in Dashboard and consist of Accounts that can optionally include related Contact records. A Campaign can be created in Dashboard using the Dashboard Wizard or via the API; any Campaign in Dashboard can be accessed using the API.
+
+
+    Two modes are offered. **Campaign (batch) enrichment** uploads records to a Campaign, LeadGenius enriches or appends contacts, and a webhook fires when records are finalized so they can be retrieved. **Rapid enrichment** submits a single account or contact (or a get_contacts request) for real-time enrichment and retrieves the enriched record by id.
+
+
+    This description was captured by the API Evangelist enrichment pipeline from the published LeadGenius API reference at https://docs.leadgenius.com/ — LeadGenius does not publish a machine readable OpenAPI definition. Every path, method, parameter, field and error code below is transcribed from that reference and its Python/JavaScript/cURL samples.'
+  termsOfService: https://www.leadgenius.com/legal/terms
+  contact:
+    name: LeadGenius Sales
+    email: sales@leadgenius.com
+    url: https://docs.leadgenius.com/
+servers:
+- url: https://leadgenius.com
+  description: Production
+security:
+- TokenAuth: []
+tags:
+- name: Exclusion
+  description: Submit accounts and contacts that should be excluded from enrichment.
+paths:
+  /api/v1/exclusion/upload/:
+    post:
+      tags:
+      - Exclusion
+      operationId: uploadExclusionRecords
+      summary: Submit exclusion records
+      description: Submit the account and contact records you would like LeadGenius to exclude. Account records require a company identifier (org_linkedin_url or org_website); contact records require a contact identifier (contact_linkedin_url or contact_email).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExclusionUploadRequest'
+            example:
+              records:
+              - entity: contact
+                contact_first_name: Jane
+                contact_last_name: Doe
+                contact_email: jane@simplefake.org
+                org_company_name: Zinc Holdings
+                org_website: simplefake.org
+              - entity: org
+                org_company_name: EarthStar
+                org_website: earthstar.org
+      responses:
+        '200':
+          description: Exclusion records accepted.
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+components:
+  schemas:
+    ExclusionUploadRequest:
+      type: object
+      required:
+      - records
+      properties:
+        records:
+          type: array
+          description: The records to exclude. Accounts use entity org; contacts use entity contact.
+          items:
+            $ref: '#/components/schemas/ExclusionRecord'
+    Error:
+      type: object
+      description: 'Django-REST-framework style validation envelope — a map of field name to an array of messages, e.g. {"type": ["This field is required."]}.'
+      additionalProperties:
+        type: array
+        items:
+          type: string
+    ExclusionRecord:
+      type: object
+      required:
+      - entity
+      properties:
+        entity:
+          type: string
+          enum:
+          - org
+          - contact
+        org_linkedin_url:
+          type: string
+        org_company_name:
+          type: string
+        org_phone:
+          type: string
+        org_website:
+          type: string
+        contact_linkedin_url:
+          type: string
+        contact_email:
+          type: string
+        contact_first_name:
+          type: string
+        contact_last_name:
+          type: string
+  responses:
+    Unauthorized:
+      description: Unauthorized -- Your API key is invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: Bad Request -- Your request is invalid in some way.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    TooManyRequests:
+      description: Too Many Requests -- You're exceeding your rate-limits (50 requests per minute).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: Internal Server Error -- We had a problem with our server. Try again later.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    TokenAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'LeadGenius uses API keys. Include the key in every request as `Authorization: Token {apikey}`.'

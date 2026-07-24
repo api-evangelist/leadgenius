@@ -1,0 +1,132 @@
+openapi: 3.1.0
+info:
+  title: LeadGenius Enrichment Campaigns Usage API
+  version: v1
+  summary: RESTful API for B2B account and contact enrichment, contact append, exclusion lists and rapid (real-time) enrichment.
+  description: 'The LeadGenius public API is a RESTful API that sends and receives records from the LeadGenius Dashboard product. Records are associated to Campaigns in Dashboard and consist of Accounts that can optionally include related Contact records. A Campaign can be created in Dashboard using the Dashboard Wizard or via the API; any Campaign in Dashboard can be accessed using the API.
+
+
+    Two modes are offered. **Campaign (batch) enrichment** uploads records to a Campaign, LeadGenius enriches or appends contacts, and a webhook fires when records are finalized so they can be retrieved. **Rapid enrichment** submits a single account or contact (or a get_contacts request) for real-time enrichment and retrieves the enriched record by id.
+
+
+    This description was captured by the API Evangelist enrichment pipeline from the published LeadGenius API reference at https://docs.leadgenius.com/ — LeadGenius does not publish a machine readable OpenAPI definition. Every path, method, parameter, field and error code below is transcribed from that reference and its Python/JavaScript/cURL samples.'
+  termsOfService: https://www.leadgenius.com/legal/terms
+  contact:
+    name: LeadGenius Sales
+    email: sales@leadgenius.com
+    url: https://docs.leadgenius.com/
+servers:
+- url: https://leadgenius.com
+  description: Production
+security:
+- TokenAuth: []
+tags:
+- name: Usage
+  description: Subscription usage and enrichment request statistics.
+paths:
+  /api/v1/enrichment/status/:
+    get:
+      tags:
+      - Usage
+      operationId: getApiUsageStats
+      summary: Check API usage stats
+      description: Check the current status of your API subscription — all-time and current-period uploaded, enriched and deduplicated record counts, remaining records, and the subscription period. These numbers can be up to 10 minutes out of date.
+      responses:
+        '200':
+          description: Current API subscription usage.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiUsageStats'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /api/v1/enrichment/rapid/stats/:
+    get:
+      tags:
+      - Usage
+      operationId: getEnrichmentStats
+      summary: Get enrichment request statistics
+      description: Enrichment requests stats.
+      responses:
+        '200':
+          description: Enrichment request statistics.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+components:
+  schemas:
+    Error:
+      type: object
+      description: 'Django-REST-framework style validation envelope — a map of field name to an array of messages, e.g. {"type": ["This field is required."]}.'
+      additionalProperties:
+        type: array
+        items:
+          type: string
+    ApiUsageStats:
+      type: object
+      properties:
+        total:
+          type: object
+          properties:
+            uploaded:
+              type: integer
+              description: Uploaded records to API campaigns (all-time).
+            enriched:
+              type: integer
+              description: Enriched records in API campaigns (all-time).
+            deduplicated:
+              type: integer
+              description: Deduplicated records in API campaigns (all-time).
+        current_period:
+          type: object
+          properties:
+            uploaded:
+              type: integer
+            enriched:
+              type: integer
+            deduplicated:
+              type: integer
+        remaining:
+          type: integer
+          description: The number of available records for upload in the current subscription period.
+        start_date:
+          type: string
+          description: Start date of the current subscription period.
+        end_date:
+          type: string
+          description: End date of the current subscription period.
+        updated_at:
+          type: string
+          description: The date and time when these numbers were generated.
+  responses:
+    Unauthorized:
+      description: Unauthorized -- Your API key is invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    TooManyRequests:
+      description: Too Many Requests -- You're exceeding your rate-limits (50 requests per minute).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: Internal Server Error -- We had a problem with our server. Try again later.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    TokenAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'LeadGenius uses API keys. Include the key in every request as `Authorization: Token {apikey}`.'
