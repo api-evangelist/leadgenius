@@ -1,27 +1,242 @@
 aid: leadgenius
 name: LeadGenius
-description: LeadGenius is a company surfaced as a portfolio company of 500-global, initialized-capital
-  and added to the API Evangelist network as a stub for enrichment. This profile is a lead awaiting the
-  enrichment pipeline.
+description: >-
+  LeadGenius provides precision B2B contact and account intelligence for go-to-market teams,
+  combining machine learning with a global team of human researchers so every contact and account is
+  human-verified before delivery. The company reports 400+ customers, coverage across 42 countries
+  and 3 billion+ data records served, with products spanning contact behavioral intelligence,
+  advanced contact tags, contact monitoring, social tracking, buying-committee coverage and privacy
+  compliance. Its developer surface is the LeadGenius Enrichment API — a RESTful, API-key
+  authenticated service documented at docs.leadgenius.com that supports company enrichment, contact
+  enrichment and contact append, offered both as asynchronous Campaigns (create a campaign, upload up
+  to 200 records per request, receive a record-finalized webhook, retrieve the enriched results) and
+  as real-time "rapid enrichment" requests submitted and collected by id.
+accessModel:
+  pricing: unknown
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Self-serve signup
+  confidence: medium
+  source:
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://cdn.prod.website-files.com/688ff1b200d9d4cf5019d518/68906378722ec3a7e64df624_logo.svg
 url: https://raw.githubusercontent.com/api-evangelist/leadgenius/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
 x-backed-by:
-- 500-global
-- initialized-capital
-x-tier: stub
-x-tier-reason: portfolio-lead
+  - 500-global
+  - initialized-capital
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-17'
+modified: '2026-07-19'
 tags:
-- Company
-apis: []
+  - Company
+  - Data Enrichment
+  - Lead Generation
+  - Sales
+  - Marketing
+  - B2B Data
+  - Contact Data
+  - Firmographics
+  - Go To Market
+  - Account Based Marketing
 maintainers:
-- FN: Kin Lane
-  email: kin@apievangelist.com
-- FN: APIs.json
-  email: info@apis.io
+  - FN: Kin Lane
+    email: kin@apievangelist.com
+  - FN: APIs.json
+    email: info@apis.io
+apis:
+- aid: leadgenius:leadgenius-campaigns-api
+  name: LeadGenius Campaigns API
+  description: Create, update and inspect enrichment campaigns.
+  humanURL: https://docs.leadgenius.com/
+  baseURL: https://leadgenius.com/api/v1/
+  tags:
+  - Campaigns
+  properties:
+  - type: OpenAPI
+    url: openapi/leadgenius-campaigns-api-openapi.yml
+  - type: Documentation
+    url: https://docs.leadgenius.com/
+  - type: APIReference
+    url: https://docs.leadgenius.com/
+  - type: GettingStarted
+    url: https://docs.leadgenius.com/#leadgenius-api-docs
+  - type: Authentication
+    url: https://docs.leadgenius.com/#authentication
+  - type: RateLimits
+    url: https://docs.leadgenius.com/#rate-limits
+  - type: Errors
+    url: https://docs.leadgenius.com/#errors
+  - type: Webhooks
+    url: https://docs.leadgenius.com/#webhook
+- aid: leadgenius:leadgenius-exclusion-api
+  name: LeadGenius Exclusion API
+  description: Submit accounts and contacts that should be excluded from enrichment.
+  humanURL: https://docs.leadgenius.com/
+  baseURL: https://leadgenius.com/api/v1/
+  tags:
+  - Exclusion
+  properties:
+  - type: OpenAPI
+    url: openapi/leadgenius-exclusion-api-openapi.yml
+  - type: Documentation
+    url: https://docs.leadgenius.com/
+  - type: APIReference
+    url: https://docs.leadgenius.com/
+  - type: GettingStarted
+    url: https://docs.leadgenius.com/#leadgenius-api-docs
+  - type: Authentication
+    url: https://docs.leadgenius.com/#authentication
+  - type: RateLimits
+    url: https://docs.leadgenius.com/#rate-limits
+  - type: Errors
+    url: https://docs.leadgenius.com/#errors
+  - type: Webhooks
+    url: https://docs.leadgenius.com/#webhook
+- aid: leadgenius:leadgenius-rapid-enrichment-api
+  name: LeadGenius Rapid Enrichment API
+  description: Real-time single-record account/contact enrichment and contact append.
+  humanURL: https://docs.leadgenius.com/
+  baseURL: https://leadgenius.com/api/v1/
+  tags:
+  - Rapid Enrichment
+  properties:
+  - type: OpenAPI
+    url: openapi/leadgenius-rapid-enrichment-api-openapi.yml
+  - type: Documentation
+    url: https://docs.leadgenius.com/
+  - type: APIReference
+    url: https://docs.leadgenius.com/
+  - type: GettingStarted
+    url: https://docs.leadgenius.com/#leadgenius-api-docs
+  - type: Authentication
+    url: https://docs.leadgenius.com/#authentication
+  - type: RateLimits
+    url: https://docs.leadgenius.com/#rate-limits
+  - type: Errors
+    url: https://docs.leadgenius.com/#errors
+  - type: Webhooks
+    url: https://docs.leadgenius.com/#webhook
+- aid: leadgenius:leadgenius-records-api
+  name: LeadGenius Records API
+  description: Upload records to a campaign and retrieve enriched results.
+  humanURL: https://docs.leadgenius.com/
+  baseURL: https://leadgenius.com/api/v1/
+  tags:
+  - Records
+  properties:
+  - type: OpenAPI
+    url: openapi/leadgenius-records-api-openapi.yml
+  - type: Documentation
+    url: https://docs.leadgenius.com/
+  - type: APIReference
+    url: https://docs.leadgenius.com/
+  - type: GettingStarted
+    url: https://docs.leadgenius.com/#leadgenius-api-docs
+  - type: Authentication
+    url: https://docs.leadgenius.com/#authentication
+  - type: RateLimits
+    url: https://docs.leadgenius.com/#rate-limits
+  - type: Errors
+    url: https://docs.leadgenius.com/#errors
+  - type: Webhooks
+    url: https://docs.leadgenius.com/#webhook
+- aid: leadgenius:leadgenius-usage-api
+  name: LeadGenius Usage API
+  description: Subscription usage and enrichment request statistics.
+  humanURL: https://docs.leadgenius.com/
+  baseURL: https://leadgenius.com/api/v1/
+  tags:
+  - Usage
+  properties:
+  - type: OpenAPI
+    url: openapi/leadgenius-usage-api-openapi.yml
+  - type: Documentation
+    url: https://docs.leadgenius.com/
+  - type: APIReference
+    url: https://docs.leadgenius.com/
+  - type: GettingStarted
+    url: https://docs.leadgenius.com/#leadgenius-api-docs
+  - type: Authentication
+    url: https://docs.leadgenius.com/#authentication
+  - type: RateLimits
+    url: https://docs.leadgenius.com/#rate-limits
+  - type: Errors
+    url: https://docs.leadgenius.com/#errors
+  - type: Webhooks
+    url: https://docs.leadgenius.com/#webhook
 common:
-- type: Website
-  url: https://leadgenius.com
+  - type: DomainSecurity
+    url: security/leadgenius-domain-security.yml
+  - type: AgenticAccess
+    url: agentic-access/leadgenius-agentic-access.yml
+  - type: Website
+    url: https://leadgenius.com
+  - type: DeveloperPortal
+    url: https://docs.leadgenius.com/
+  - type: Documentation
+    url: https://docs.leadgenius.com/
+  - type: APIReference
+    url: https://docs.leadgenius.com/
+  - type: GettingStarted
+    url: https://docs.leadgenius.com/#leadgenius-api-docs
+  - type: SignUp
+    url: https://app.leadgenius.com/sign-up
+  - type: Login
+    url: https://app.leadgenius.com/sign-in
+  - type: Support
+    url: https://support.leadgenius.com/hc/en-us
+  - type: Blog
+    url: https://www.leadgenius.com/resources
+  - type: TermsOfService
+    url: https://www.leadgenius.com/legal/terms
+  - type: PrivacyPolicy
+    url: https://www.leadgenius.com/legal/privacy
+  - type: Compliance
+    url: https://www.leadgenius.com/legal/ccpa
+  - type: GitHubOrganization
+    url: https://github.com/leadgenius
+  - type: LinkedIn
+    url: https://www.linkedin.com/company/leadgenius/
+  - type: Twitter
+    url: https://twitter.com/leadgenius
+  - type: CaseStudies
+    url: https://www.leadgenius.com/customers
+  - type: OpenAPI
+    url: openapi/leadgenius-enrichment-api-openapi.yml
+  - type: Overlay
+    url: overlays/leadgenius-enrichment-api-overlay.yaml
+  - type: Authentication
+    url: authentication/leadgenius-authentication.yml
+  - type: Conventions
+    url: conventions/leadgenius-conventions.yml
+  - type: ErrorCatalog
+    url: errors/leadgenius-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/leadgenius-rate-limits.yml
+  - type: Lifecycle
+    url: lifecycle/leadgenius-lifecycle.yml
+  - type: Conformance
+    url: conformance/leadgenius-conformance.yml
+  - type: DataModel
+    url: data-model/leadgenius-data-model.yml
+  - type: Webhooks
+    url: asyncapi/leadgenius-enrichment-webhooks.yml
+  - type: MCPServer
+    url: mcp/leadgenius-mcp.yml
+  - type: AgentSkill
+    url: skills/_index.yml
+  - type: LLMsTxt
+    url: llms/leadgenius-llms.txt
+  - type: WellKnown
+    url: well-known/leadgenius-well-known.yml
+x-enrichment:
+  date: '2026-07-19'
+  status: backfilled
+  pass: local-v1
+  note: backfilled from .gitignore signal + verified work evidence
