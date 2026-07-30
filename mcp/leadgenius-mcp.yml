@@ -1,0 +1,53 @@
+generated: '2026-07-19'
+method: derived
+status: candidate
+source: openapi/leadgenius-enrichment-api-openapi.yml
+description: >-
+  LeadGenius publishes no official hosted or remote MCP server — searches of the LeadGenius docs,
+  site, GitHub organization and the public npm registry found no first-party Model Context Protocol
+  server. (Third-party packages published under the name "LeadGenius Pro" on npm belong to a
+  different product and are not LeadGenius, Inc.) This is a candidate tool surface derived one-to-one
+  from the operations in the captured OpenAPI, for use as the basis of an MCP server.
+server:
+  name: leadgenius
+  transport: http
+  url: null
+  official: false
+tools:
+  - name: create_campaign
+    description: Create a LeadGenius enrichment campaign with the fields, contact requirements and webhook URL to use.
+    source_operation: openapi/leadgenius-enrichment-api-openapi.yml#createCampaign
+  - name: get_upload_request_sample
+    description: Get the sample upload payload for a campaign, describing its field names and identifier.
+    source_operation: openapi/leadgenius-enrichment-api-openapi.yml#getUploadRequestSample
+  - name: upload_records_to_campaign
+    description: Upload up to 200 account/contact records to a campaign for enrichment or contact append.
+    source_operation: openapi/leadgenius-enrichment-api-openapi.yml#uploadRecordsToCampaign
+  - name: update_campaign
+    description: Update a campaign's webhook URL.
+    source_operation: openapi/leadgenius-enrichment-api-openapi.yml#updateCampaign
+  - name: retrieve_campaign_records
+    description: Query a campaign's job status and retrieve finalized, enriched records.
+    source_operation: openapi/leadgenius-enrichment-api-openapi.yml#retrieveCampaignRecords
+  - name: get_api_usage_stats
+    description: Check subscription usage - uploaded, enriched, deduplicated and remaining records.
+    source_operation: openapi/leadgenius-enrichment-api-openapi.yml#getApiUsageStats
+  - name: upload_exclusion_records
+    description: Submit accounts and contacts that should be excluded from future enrichment.
+    source_operation: openapi/leadgenius-enrichment-api-openapi.yml#uploadExclusionRecords
+  - name: create_rapid_enrichment_request
+    description: Submit a real-time enrichment request for a contact, an account, or a get_contacts append.
+    source_operation: openapi/leadgenius-enrichment-api-openapi.yml#createRapidEnrichmentRequest
+  - name: list_enrichment_requests
+    description: List rapid enrichment requests, filtered by id, status, type or created date.
+    source_operation: openapi/leadgenius-enrichment-api-openapi.yml#listEnrichmentRequests
+  - name: retrieve_enriched_record
+    description: Retrieve the enriched record for a rapid enrichment request id.
+    source_operation: openapi/leadgenius-enrichment-api-openapi.yml#retrieveEnrichedRecord
+  - name: get_enrichment_stats
+    description: Get rapid enrichment request statistics.
+    source_operation: openapi/leadgenius-enrichment-api-openapi.yml#getEnrichmentStats
+authentication:
+  scheme: apiKey
+  header: 'Authorization: Token {apikey}'
+  detail: authentication/leadgenius-authentication.yml

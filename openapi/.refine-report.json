@@ -1,0 +1,22 @@
+{
+  "provider": "leadgenius",
+  "sources": [
+    "leadgenius-campaigns-api-openapi.yml",
+    "leadgenius-exclusion-api-openapi.yml",
+    "leadgenius-rapid-enrichment-api-openapi.yml",
+    "leadgenius-records-api-openapi.yml",
+    "leadgenius-usage-api-openapi.yml"
+  ],
+  "outputs": [
+    "leadgenius-campaigns-api-openapi.yml",
+    "leadgenius-exclusion-api-openapi.yml",
+    "leadgenius-rapid-enrichment-api-openapi.yml",
+    "leadgenius-records-api-openapi.yml",
+    "leadgenius-usage-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

@@ -1,0 +1,36 @@
+generated: '2026-07-19'
+method: searched
+source: live probe of the LeadGenius hosts
+description: >-
+  Probe of the /.well-known/ discovery surface on the LeadGenius production host. leadgenius.com
+  301-redirects to www.leadgenius.com, which returns 404 for every well-known path probed. The
+  documentation host (docs.leadgenius.com) is a static Slate site that answers every path with the
+  documentation HTML (a soft 404), so no well-known document is published there either.
+hosts:
+  - host: https://www.leadgenius.com
+    note: leadgenius.com 301-redirects here.
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+  - host: https://docs.leadgenius.com
+    note: >-
+      Static documentation host; all paths return HTTP 200 with the documentation HTML regardless of
+      the path requested, so no well-known document can be confirmed as published.
+    documents:
+      - path: /.well-known/security.txt
+        status: 200
+        confirmed: false
+        reason: soft 404 - response body is the documentation page, not a security.txt
+      - path: /.well-known/api-catalog
+        status: 200
+        confirmed: false
+        reason: soft 404 - response body is the documentation page
+documents: []

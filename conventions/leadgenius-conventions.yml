@@ -1,0 +1,105 @@
+generated: '2026-07-19'
+method: searched
+source: https://docs.leadgenius.com/
+description: >-
+  Cross-cutting request/response semantics for the LeadGenius Enrichment API — the conventions that
+  apply to every operation rather than to any single endpoint. Captured from the published API
+  reference and corroborated against openapi/leadgenius-enrichment-api-openapi.yml.
+base_url: https://leadgenius.com
+api_style: REST over HTTPS, JSON request and response bodies
+
+authentication:
+  scheme: API key in the Authorization header
+  header: 'Authorization: Token {apikey}'
+  key_types: [account API key]
+  provisioning: >-
+    Self-serve API trial registration at https://app.leadgenius.com/sign-up, or contact
+    sales@leadgenius.com / your Customer Success rep for an API subscription and key.
+  detail: authentication/leadgenius-authentication.yml
+
+idempotency:
+  supported: false
+  mechanism: null
+  notes: >-
+    LeadGenius does not document an idempotency key header or parameter. De-duplication is handled
+    server-side at the data layer instead: the API usage stats endpoint reports a `deduplicated`
+    count of records recognised as duplicates of records already uploaded to API campaigns, and the
+    exclusion list (POST /api/v1/exclusion/upload/) lets a customer suppress accounts and contacts
+    from future enrichment. Re-uploading the same records to a campaign is therefore de-duplicated
+    but is not an idempotent-replay contract, and no replay indicator is returned.
+
+pagination:
+  style: page-size limited
+  applies_to: GET /api/v1/enrichment/retrieve/{slug}/
+  page_size: 100
+  request_params:
+    id: repeatable query parameter to fetch specific record ids (?id=1&id=2)
+    finalized_from: filter records by date of finalization (from)
+    finalized_to: filter records by date of finalization (to)
+  notes: >-
+    The docs state "The API supports pagination at 100 records" but do not publish a cursor or page
+    parameter; record-id and finalization-date filters are the documented way to walk a campaign.
+
+batching:
+  supported: true
+  mechanism: records[] array on the upload and exclusion endpoints
+  max_records_per_request: 200
+  max_records_per_job: unlimited (turn-around time increases with job size)
+
+field_selection:
+  supported: true
+  mechanism: >-
+    The `columns` array on campaign creation and the `fields` array on record upload declare which
+    LeadGenius fields are enriched and returned. Campaigns created in Dashboard can include
+    non-standard fields whose object names appear in the Dashboard sample code.
+
+async_model:
+  style: submit-then-collect
+  description: >-
+    Enrichment is asynchronous. Campaign records are uploaded, worked (optionally with human review
+    when precision is true), then finalized; rapid-enrichment requests move through
+    scheduled -> in_progress -> ok/erred/cancelled and the enriched record is fetched by id.
+  completion_signal: webhook (see webhooks below) or polling the retrieve/list endpoints
+  record_statuses:
+    - original
+    - finalized_complete
+    - finalized_incomplete
+    - finalized_unenriched
+    - finalized_cancelled
+  request_statuses: [scheduled, in_progress, erred, cancelled, ok]
+
+webhooks:
+  supported: true
+  configuration: webhook_url on campaign create (POST /api/v1/enrichment/campaigns/) or update (PATCH /api/v1/enrichment/update/{slug}/)
+  method: POST
+  content_type: application/json
+  signature_verification: not documented
+  detail: asyncapi/leadgenius-enrichment-webhooks.yml
+
+versioning:
+  scheme: uri-path
+  current: v1
+  detail: lifecycle/leadgenius-lifecycle.yml
+
+error_envelope:
+  format: >-
+    Field-keyed validation envelope — a JSON object mapping the offending field name to an array of
+    messages, e.g. {"type": ["This field is required."]}. Not RFC 9457 problem+json.
+  content_type: application/json
+  detail: errors/leadgenius-problem-types.yml
+
+rate_limiting:
+  requests_per_minute: 50
+  records_per_request: 200
+  throttle_status: 429
+  headers: not documented
+  detail: rate-limits/leadgenius-rate-limits.yml
+
+request_tracing:
+  request_id_header: not documented
+
+metadata:
+  supported: true
+  mechanism: >-
+    org_record_id and contact_record_id pass a customer-side identifier (e.g. a CRM account, contact
+    or lead ID) through enrichment and back on the returned record.

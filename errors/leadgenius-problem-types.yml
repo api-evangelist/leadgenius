@@ -1,0 +1,68 @@
+generated: '2026-07-19'
+method: searched
+source: https://docs.leadgenius.com/#errors
+description: >-
+  The LeadGenius API error catalog. HTTP status codes and their published meanings come from the
+  "Errors" section of the API reference; the specific validation messages come from the
+  "Specific Errors" table. LeadGenius does not use RFC 9457 application/problem+json.
+format: field-keyed-validation-envelope
+envelope:
+  content_type: application/json
+  shape: >-
+    A JSON object whose keys are the offending request fields and whose values are arrays of human
+    readable messages, e.g. {"type": ["This field is required."]}.
+  example:
+    type:
+      - This field is required.
+problems:
+  - status: 400
+    title: Bad Request
+    detail: Your request is invalid in some way.
+  - status: 401
+    title: Unauthorized
+    detail: Your API key is invalid.
+    remediation: >-
+      Send the key as `Authorization: Token {apikey}`; request a key via sign-up or your Customer
+      Success rep.
+  - status: 403
+    title: Forbidden
+    detail: The resource requested is hidden for administrators only.
+  - status: 404
+    title: Not Found
+    detail: The specified resource could not be found.
+  - status: 405
+    title: Method Not Allowed
+    detail: You tried to access a resource with an invalid method.
+  - status: 406
+    title: Not Acceptable
+    detail: You requested a format that isn't supported.
+  - status: 410
+    title: Gone
+    detail: The resource requested has been removed from our servers.
+  - status: 418
+    title: I'm a teapot
+    detail: Published in the LeadGenius error table.
+  - status: 429
+    title: Too Many Requests
+    detail: You're exceeding your rate-limits.
+    remediation: Stay under 50 requests per minute and 200 records per request; back off and retry.
+  - status: 500
+    title: Internal Server Error
+    detail: We had a problem with our server. Try again later.
+  - status: 503
+    title: Service Unavailable
+    detail: We're temporarily offline for maintenance. Please try again later.
+specific_errors:
+  - status: 400
+    message: '{"type":["This field is required."]}'
+    cause: The type parameter was not included with your request.
+  - status: 400
+    message: '{"type":["\"foo\" is not a valid choice."]}'
+    cause: The value given for type is not a valid option.
+    remediation: Use one of contact, account, get_contacts.
+  - status: 400
+    message: '{"fields":["single_field type requires 1 field. Passed 2"]}'
+    cause: More than 1 other field was given (in addition to identifier fields) for the fields parameter.
+  - status: 400
+    message: '{"fields":["This list may not be empty. single_field type requires 1 field"]}'
+    cause: No field (in addition to identifier fields) was given for the fields parameter.

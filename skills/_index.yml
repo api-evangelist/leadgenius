@@ -1,0 +1,20 @@
+generated: '2026-07-19'
+method: generated
+source: >-
+  Packaged Agent Skills generated from openapi/leadgenius-enrichment-api-openapi.yml (itself captured
+  from https://docs.leadgenius.com/). Every step is grounded in an operationId that exists verbatim
+  in that spec; cross-cutting rules cite ../conventions/, ../errors/ and ../rate-limits/.
+skills:
+  - file: leadgenius-rapid-enrich-account.md
+    name: Enrich a company in real time with LeadGenius
+    api: openapi/leadgenius-enrichment-api-openapi.yml
+    operations: [createRapidEnrichmentRequest, listEnrichmentRequests, retrieveEnrichedRecord]
+  - file: leadgenius-append-buying-committee.md
+    name: Append a buying committee to an account with LeadGenius
+    api: openapi/leadgenius-enrichment-api-openapi.yml
+    operations: [createRapidEnrichmentRequest, listEnrichmentRequests, retrieveEnrichedRecord, uploadExclusionRecords]
+  - file: leadgenius-batch-campaign-enrichment.md
+    name: Run a batch enrichment campaign with LeadGenius
+    api: openapi/leadgenius-enrichment-api-openapi.yml
+    operations: [createCampaign, getUploadRequestSample, uploadRecordsToCampaign, updateCampaign,
+      retrieveCampaignRecords, getApiUsageStats]

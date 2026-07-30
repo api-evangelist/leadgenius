@@ -1,0 +1,62 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for the LeadGenius Enrichment API
+  version: 1.0.0
+extends: openapi/leadgenius-enrichment-api-openapi.yml
+actions:
+  - target: $.info
+    description: Provenance and rating metadata for the captured definition.
+    update:
+      x-apievangelist-source: https://docs.leadgenius.com/
+      x-apievangelist-method: captured-from-docs
+      x-apievangelist-captured: '2026-07-19'
+      x-apievangelist-note: >-
+        LeadGenius does not publish a machine-readable OpenAPI definition. This description was
+        transcribed from the published API reference by the API Evangelist enrichment pipeline.
+  - target: $.info
+    description: Link the cross-cutting artifacts captured alongside the spec.
+    update:
+      x-apievangelist-artifacts:
+        authentication: authentication/leadgenius-authentication.yml
+        conventions: conventions/leadgenius-conventions.yml
+        errors: errors/leadgenius-problem-types.yml
+        rate_limits: rate-limits/leadgenius-rate-limits.yml
+        lifecycle: lifecycle/leadgenius-lifecycle.yml
+        conformance: conformance/leadgenius-conformance.yml
+        data_model: data-model/leadgenius-data-model.yml
+        webhooks: asyncapi/leadgenius-enrichment-webhooks.yml
+        mcp: mcp/leadgenius-mcp.yml
+        skills: skills/_index.yml
+  - target: $
+    description: Declare the published rate limit at the document level.
+    update:
+      x-rate-limits:
+        requests_per_minute: 50
+        records_per_request: 200
+        throttle_status: 429
+        docs: https://docs.leadgenius.com/#rate-limits
+  - target: $.components.securitySchemes.TokenAuth
+    description: Record how API keys are provisioned.
+    update:
+      x-key-provisioning:
+        self_serve: https://app.leadgenius.com/sign-up
+        sales: sales@leadgenius.com
+  - target: $.paths['/api/v1/enrichment/rapid/'].post
+    description: Flag the real-time enrichment entry point.
+    update:
+      x-apievangelist-marquee: true
+      x-async-model: submit-then-collect
+      x-follow-up-operation: retrieveEnrichedRecord
+  - target: $.paths['/api/v1/enrichment/upload/{slug}/'].post
+    description: Flag the batch upload entry point and its completion signal.
+    update:
+      x-apievangelist-marquee: true
+      x-async-model: submit-then-webhook
+      x-completion-event: record.finalized
+      x-follow-up-operation: retrieveCampaignRecords
+  - target: $.paths['/api/v1/enrichment/retrieve/{slug}/'].get
+    description: Record the documented page size.
+    update:
+      x-pagination:
+        style: page-size limited
+        page_size: 100

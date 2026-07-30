@@ -1,0 +1,37 @@
+generated: '2026-07-19'
+method: searched
+source: https://docs.leadgenius.com/
+description: >-
+  Versioning, deprecation and operational-transparency posture for the LeadGenius Enrichment API,
+  captured from the published API reference and a probe of the LeadGenius web properties. Several
+  fields are recorded as not published — LeadGenius operates an enterprise/contract API surface and
+  does not run a public status page, SLA page or deprecation policy page.
+versioning:
+  scheme: uri-path
+  current: v1
+  evidence: every documented path is prefixed /api/v1/
+  docs: https://docs.leadgenius.com/
+deprecation:
+  policy_url: null
+  policy_published: false
+  sunset_header: not documented
+  deprecation_header: not documented
+sla:
+  url: null
+  uptime_target: null
+  published: false
+status_page:
+  url: null
+  published: false
+  probed:
+    - {url: 'https://status.leadgenius.com', result: no DNS resolution}
+support:
+  help_center: https://support.leadgenius.com/hc/en-us
+  request_form: https://support.leadgenius.com/hc/en-us/requests/new
+  sales: sales@leadgenius.com
+deprecated_operations: []
+notes: >-
+  The current API surface was relaunched as a self-serve developer experience — see
+  https://www.leadgenius.com/resources/introducing-the-new-leadgenius-api-experience-real-time-enrichment-zero-bottlenecks
+  — adding real-time "rapid enrichment" alongside the original campaign/batch model. LeadGenius
+  publishes no dated changelog for the API.

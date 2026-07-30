@@ -1,0 +1,35 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: LeadGenius
+providerId: leadgenius
+created: '2026-07-19'
+modified: '2026-07-19'
+generated: '2026-07-19'
+method: searched
+tags:
+  - Rate Limiting
+  - Enrichment
+  - Lead Generation
+description: >-
+  LeadGenius publishes a single account-wide API rate limit of 50 requests per minute with up to 200
+  records per request. There is no published per-tier variation and no documented rate-limit response
+  headers; exceeding the limit returns HTTP 429.
+sources:
+  - https://docs.leadgenius.com/#rate-limits
+responseCodes:
+  throttled: 429
+limits:
+  - name: API requests
+    scope: account
+    metric: requests_per_minute
+    limit: 50
+    timeFrame: minute
+  - name: Records per request
+    scope: request
+    metric: records_per_request
+    limit: 200
+    timeFrame: request
+notes: >-
+  There is currently no limit on the number of records per job, however turn-around time increases
+  for larger jobs.

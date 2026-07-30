@@ -1,0 +1,113 @@
+generated: '2026-07-19'
+method: derived
+source: openapi/leadgenius-enrichment-api-openapi.yml
+description: >-
+  Entity-relationship graph for the LeadGenius Enrichment API, derived from the schema $ref links and
+  id-reference fields in the captured OpenAPI. LeadGenius models a small domain: Campaigns hold
+  Records, a Record is an Account that may carry Contact fields, Rapid Enrichment Requests produce
+  Enriched Records, and Exclusion Records suppress accounts and contacts from future enrichment.
+entities:
+  - name: Campaign
+    schema: Campaign
+    identifier: slug
+    identifier_type: string slug
+    description: A unit of work in the LeadGenius Dashboard that records are uploaded to for enrichment or contact append.
+    fields: [slug, name, webhook_url, precision, columns, contacts_per_company, contacts, companies]
+    operations: [createCampaign, updateCampaign, retrieveCampaignRecords, getUploadRequestSample, uploadRecordsToCampaign]
+  - name: Record
+    schema: Record
+    identifier: org_record_id
+    identifier_type: customer-supplied (e.g. CRM account id)
+    description: >-
+      An Account record, optionally carrying related Contact fields. The unit uploaded to a campaign
+      and the unit returned enriched.
+    operations: [uploadRecordsToCampaign, retrieveCampaignRecords]
+  - name: RetrievedRecord
+    schema: RetrievedRecord
+    description: A Record wrapped with its enrichment lifecycle metadata (created, finalized, status).
+    statuses: [original, finalized_complete, finalized_incomplete, finalized_unenriched, finalized_cancelled]
+  - name: Contact
+    identifier: contact_record_id
+    identifier_type: customer-supplied (e.g. CRM contact or lead id)
+    description: >-
+      A person at an account. Not a standalone REST resource — contacts are expressed as the
+      contact_* fields on a Record and as the contacts[] requirement definition on a Campaign.
+    fields: [contact_record_id, contact_first_name, contact_last_name, contact_email, contact_job_title,
+      contact_linkedin_url, contact_department, contact_seniority]
+  - name: ContactRequirement
+    schema: ContactRequirement
+    description: The buying-committee definition on a Campaign - priority, seniority, department, keywords, condition.
+  - name: EnrichmentRequest
+    schema: EnrichmentRequest
+    identifier: id
+    identifier_type: integer
+    description: A rapid (real-time) enrichment request of type contact, account or get_contacts.
+    statuses: [scheduled, in_progress, erred, cancelled, ok]
+    operations: [createRapidEnrichmentRequest, listEnrichmentRequests, retrieveEnrichedRecord, getEnrichmentStats]
+  - name: EnrichedRecord
+    schema: EnrichedRecord
+    description: The org_* and contact_* output keys returned for a completed rapid enrichment request.
+    operations: [retrieveEnrichedRecord]
+  - name: ExclusionRecord
+    schema: ExclusionRecord
+    identifier: entity + org_linkedin_url|org_website|contact_linkedin_url|contact_email
+    description: An account or contact suppressed from future enrichment.
+    operations: [uploadExclusionRecords]
+  - name: ApiUsageStats
+    schema: ApiUsageStats
+    description: Subscription usage - uploaded, enriched, deduplicated and remaining records for the period.
+    operations: [getApiUsageStats]
+  - name: RecordFinalizedEvent
+    schema: RecordFinalizedEvent
+    description: The webhook payload delivered when campaign records are finalized.
+relationships:
+  - from: Campaign
+    to: Record
+    type: has_many
+    via: records
+    evidence: RecordUploadRequest.records[] carries the campaign slug.
+  - from: Campaign
+    to: ContactRequirement
+    type: has_many
+    via: contacts
+    evidence: CampaignCreateRequest.contacts -> ContactRequirement
+  - from: Campaign
+    to: RecordFinalizedEvent
+    type: has_many
+    via: webhook_url
+    evidence: RecordFinalizedEvent.slug references the Campaign.
+  - from: RetrievedRecord
+    to: Record
+    type: has_one
+    via: data
+    evidence: RetrievedRecord.data -> Record
+  - from: Record
+    to: Contact
+    type: has_many
+    via: contact_* fields / contacts_per_company
+    evidence: A Record is an Account that may carry related Contact records.
+  - from: RecordFinalizedEvent
+    to: Record
+    type: has_many
+    via: records
+    evidence: RecordFinalizedEvent.records[] is an array of finalized record ids.
+  - from: EnrichmentRequest
+    to: Record
+    type: has_one
+    via: data
+    evidence: RapidEnrichmentRequest.data -> Record
+  - from: EnrichmentRequest
+    to: EnrichedRecord
+    type: has_one
+    via: id
+    evidence: retrieveEnrichedRecord resolves an EnrichmentRequest id to its EnrichedRecord.
+  - from: EnrichmentRequest
+    to: RapidContactsSelector
+    type: has_one
+    via: contacts
+    evidence: RapidEnrichmentRequest.contacts -> RapidContactsSelector (get_contacts mode)
+enumerations:
+  seniority: [VP+, Director+, Manager+, C-level, VP, Director, Manager, Senior, Entry level]
+  department: [Business Development, Consulting, Design, Education, Engineering, Executive, Finance,
+    Health Services, Human Resources, Information Technology, Legal, Marketing,
+    Media and Communications, Operations, Product, Sales]

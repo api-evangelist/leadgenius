@@ -1,0 +1,805 @@
+openapi: 3.1.0
+info:
+  title: LeadGenius Enrichment API
+  version: v1
+  summary: RESTful API for B2B account and contact enrichment, contact append, exclusion lists and rapid (real-time) enrichment.
+  description: >-
+    The LeadGenius public API is a RESTful API that sends and receives records from the LeadGenius
+    Dashboard product. Records are associated to Campaigns in Dashboard and consist of Accounts that
+    can optionally include related Contact records. A Campaign can be created in Dashboard using the
+    Dashboard Wizard or via the API; any Campaign in Dashboard can be accessed using the API.
+
+
+    Two modes are offered. **Campaign (batch) enrichment** uploads records to a Campaign, LeadGenius
+    enriches or appends contacts, and a webhook fires when records are finalized so they can be
+    retrieved. **Rapid enrichment** submits a single account or contact (or a get_contacts request)
+    for real-time enrichment and retrieves the enriched record by id.
+
+
+    This description was captured by the API Evangelist enrichment pipeline from the published
+    LeadGenius API reference at https://docs.leadgenius.com/ — LeadGenius does not publish a machine
+    readable OpenAPI definition. Every path, method, parameter, field and error code below is
+    transcribed from that reference and its Python/JavaScript/cURL samples.
+  termsOfService: https://www.leadgenius.com/legal/terms
+  contact:
+    name: LeadGenius Sales
+    email: sales@leadgenius.com
+    url: https://docs.leadgenius.com/
+servers:
+  - url: https://leadgenius.com
+    description: Production
+security:
+  - TokenAuth: []
+tags:
+  - name: Campaigns
+    description: Create, update and inspect enrichment campaigns.
+  - name: Records
+    description: Upload records to a campaign and retrieve enriched results.
+  - name: Exclusion
+    description: Submit accounts and contacts that should be excluded from enrichment.
+  - name: Rapid Enrichment
+    description: Real-time single-record account/contact enrichment and contact append.
+  - name: Usage
+    description: Subscription usage and enrichment request statistics.
+paths:
+  /api/v1/enrichment/campaigns/:
+    post:
+      tags: [Campaigns]
+      operationId: createCampaign
+      summary: Create an API campaign
+      description: >-
+        Create a Campaign that records will be uploaded to. Three kinds of campaign can be created
+        via the API — Single Fields (Account or Contact), Standard Fields (Account or Contact), and
+        Contact Fields. The campaign definition determines whether uploaded records are enriched,
+        appended with new contacts, or both.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CampaignCreateRequest'
+            example:
+              name: net new org contact precision
+              precision: true
+              webhook_url: http://test.com/webhook/
+              columns:
+                - org_website
+                - org_company_name
+                - contact_email
+                - contact_linkedin_url
+              contacts_per_company: 2
+              contacts:
+                - priority: 1
+                  seniority: C-level
+                  department: Administrative
+                  keywords: [test]
+                  condition: AND
+                - priority: 2
+                  department: Business Development
+      responses:
+        '200':
+          description: Campaign created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Campaign'
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '429': { $ref: '#/components/responses/TooManyRequests' }
+        '500': { $ref: '#/components/responses/InternalServerError' }
+  /api/v1/enrichment/upload/{slug}/:
+    parameters:
+      - $ref: '#/components/parameters/CampaignSlug'
+    get:
+      tags: [Records]
+      operationId: getUploadRequestSample
+      summary: Get the upload request sample for a campaign
+      description: >-
+        Returns a sample upload payload for the campaign, describing the field names and campaign
+        identifier needed to send records correctly.
+      responses:
+        '200':
+          description: Sample upload request for the campaign.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecordUploadRequest'
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '429': { $ref: '#/components/responses/TooManyRequests' }
+        '500': { $ref: '#/components/responses/InternalServerError' }
+    post:
+      tags: [Records]
+      operationId: uploadRecordsToCampaign
+      summary: Upload records to a campaign
+      description: >-
+        Upload up to 200 Account and/or Contact records per request to the campaign for enrichment
+        or contact append.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RecordUploadRequest'
+      responses:
+        '200':
+          description: Records accepted for enrichment.
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '429': { $ref: '#/components/responses/TooManyRequests' }
+        '500': { $ref: '#/components/responses/InternalServerError' }
+  /api/v1/enrichment/update/{slug}/:
+    parameters:
+      - $ref: '#/components/parameters/CampaignSlug'
+    patch:
+      tags: [Campaigns]
+      operationId: updateCampaign
+      summary: Update a campaign
+      description: Update the campaign's webhook URL.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                webhook_url:
+                  type: string
+                  format: uri
+                  description: URL to call when record(s) are finalized on the LeadGenius side.
+              example:
+                webhook_url: https://test.com/webhook/
+      responses:
+        '200':
+          description: Campaign updated.
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '429': { $ref: '#/components/responses/TooManyRequests' }
+        '500': { $ref: '#/components/responses/InternalServerError' }
+  /api/v1/enrichment/retrieve/{slug}/:
+    parameters:
+      - $ref: '#/components/parameters/CampaignSlug'
+    get:
+      tags: [Records]
+      operationId: retrieveCampaignRecords
+      summary: Query campaign status and retrieve finalized records
+      description: >-
+        Query a running job to find out the status of an API campaign. If the campaign has been
+        completed you receive the completed data. Results are paginated at 100 records.
+      parameters:
+        - name: id
+          in: query
+          required: false
+          description: >-
+            Return only the record(s) with the assigned ID. Repeat the parameter to request several
+            ids (?id=1&id=2).
+          schema:
+            type: array
+            items:
+              type: integer
+          style: form
+          explode: true
+        - name: finalized_from
+          in: query
+          required: false
+          description: Filter records by date of finalization (from). Formats 2022-01-02 or 2022-01-03T18:03:11Z.
+          schema:
+            type: string
+        - name: finalized_to
+          in: query
+          required: false
+          description: Filter records by date of finalization (to). Formats 2022-01-02 or 2022-01-03T18:03:11Z.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Campaign job status and, when completed, the finalized records.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CampaignRetrieveResponse'
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '429': { $ref: '#/components/responses/TooManyRequests' }
+        '500': { $ref: '#/components/responses/InternalServerError' }
+  /api/v1/enrichment/status/:
+    get:
+      tags: [Usage]
+      operationId: getApiUsageStats
+      summary: Check API usage stats
+      description: >-
+        Check the current status of your API subscription — all-time and current-period uploaded,
+        enriched and deduplicated record counts, remaining records, and the subscription period.
+        These numbers can be up to 10 minutes out of date.
+      responses:
+        '200':
+          description: Current API subscription usage.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiUsageStats'
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '429': { $ref: '#/components/responses/TooManyRequests' }
+        '500': { $ref: '#/components/responses/InternalServerError' }
+  /api/v1/exclusion/upload/:
+    post:
+      tags: [Exclusion]
+      operationId: uploadExclusionRecords
+      summary: Submit exclusion records
+      description: >-
+        Submit the account and contact records you would like LeadGenius to exclude. Account records
+        require a company identifier (org_linkedin_url or org_website); contact records require a
+        contact identifier (contact_linkedin_url or contact_email).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExclusionUploadRequest'
+            example:
+              records:
+                - entity: contact
+                  contact_first_name: Jane
+                  contact_last_name: Doe
+                  contact_email: jane@simplefake.org
+                  org_company_name: Zinc Holdings
+                  org_website: simplefake.org
+                - entity: org
+                  org_company_name: EarthStar
+                  org_website: earthstar.org
+      responses:
+        '200':
+          description: Exclusion records accepted.
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '429': { $ref: '#/components/responses/TooManyRequests' }
+        '500': { $ref: '#/components/responses/InternalServerError' }
+  /api/v1/enrichment/rapid/:
+    post:
+      tags: [Rapid Enrichment]
+      operationId: createRapidEnrichmentRequest
+      summary: Submit a rapid enrichment request
+      description: >-
+        Submit a real-time enrichment request. `type` selects the mode — `contact` enriches a single
+        contact, `account` enriches a single company, and `get_contacts` returns matched contacts for
+        a company using the supplied contacts definition.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RapidEnrichmentRequest'
+            example:
+              type: get_contacts
+              data:
+                org_company_name: microsoft
+                org_website: microsoft.com
+                org_linkedin_url: linkedin.com/in/microsoft
+              contacts:
+                contacts_per_company: 1
+                seniority: C-level
+                title: Consulting
+      responses:
+        '200':
+          description: Enrichment request accepted; poll or retrieve the record by id.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnrichmentRequest'
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '429': { $ref: '#/components/responses/TooManyRequests' }
+        '500': { $ref: '#/components/responses/InternalServerError' }
+    get:
+      tags: [Rapid Enrichment]
+      operationId: listEnrichmentRequests
+      summary: List enrichment requests
+      description: Get a list of enrichment requests, optionally filtered by id, status, type or created date.
+      parameters:
+        - name: id
+          in: query
+          required: false
+          description: Request id.
+          schema:
+            type: integer
+        - name: status
+          in: query
+          required: false
+          description: Enrichment request status.
+          schema:
+            type: string
+            enum: [scheduled, in_progress, erred, cancelled, ok]
+        - name: enrichment_type
+          in: query
+          required: false
+          description: Enrichment request type.
+          schema:
+            type: string
+            enum: [contact, account, get_contacts]
+        - name: created_from
+          in: query
+          required: false
+          description: Created-date filter (from). Formats 2022-01-02 or 2022-01-03T18:03:11Z.
+          schema:
+            type: string
+        - name: created_to
+          in: query
+          required: false
+          description: Created-date filter (to). Formats 2022-01-02 or 2022-01-03T18:03:11Z.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of enrichment requests.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EnrichmentRequest'
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '429': { $ref: '#/components/responses/TooManyRequests' }
+        '500': { $ref: '#/components/responses/InternalServerError' }
+  /api/v1/enrichment/rapid/{id}/:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: Enrichment request id.
+        schema:
+          type: integer
+    get:
+      tags: [Rapid Enrichment]
+      operationId: retrieveEnrichedRecord
+      summary: Retrieve an enriched record
+      description: Get the enriched record data for a rapid enrichment request.
+      responses:
+        '200':
+          description: The enriched record.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnrichedRecord'
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '429': { $ref: '#/components/responses/TooManyRequests' }
+        '500': { $ref: '#/components/responses/InternalServerError' }
+  /api/v1/enrichment/rapid/stats/:
+    get:
+      tags: [Usage]
+      operationId: getEnrichmentStats
+      summary: Get enrichment request statistics
+      description: Enrichment requests stats.
+      responses:
+        '200':
+          description: Enrichment request statistics.
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '429': { $ref: '#/components/responses/TooManyRequests' }
+        '500': { $ref: '#/components/responses/InternalServerError' }
+webhooks:
+  recordFinalized:
+    post:
+      operationId: recordFinalizedWebhook
+      summary: Record finalized callback
+      description: >-
+        When a campaign has a webhook_url set, LeadGenius sends a POST request with
+        content-type application/json to that URL every time a record is finalized.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RecordFinalizedEvent'
+      responses:
+        '200':
+          description: Acknowledged by the receiving system.
+components:
+  securitySchemes:
+    TokenAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: >-
+        LeadGenius uses API keys. Include the key in every request as
+        `Authorization: Token {apikey}`.
+  parameters:
+    CampaignSlug:
+      name: slug
+      in: path
+      required: true
+      description: Campaign slug/identifier on the LeadGenius platform.
+      schema:
+        type: string
+  responses:
+    BadRequest:
+      description: Bad Request -- Your request is invalid in some way.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Unauthorized -- Your API key is invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: Forbidden -- The resource requested is hidden for administrators only.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Not Found -- The specified resource could not be found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    TooManyRequests:
+      description: Too Many Requests -- You're exceeding your rate-limits (50 requests per minute).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: Internal Server Error -- We had a problem with our server. Try again later.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    Error:
+      type: object
+      description: >-
+        Django-REST-framework style validation envelope — a map of field name to an array of
+        messages, e.g. {"type": ["This field is required."]}.
+      additionalProperties:
+        type: array
+        items:
+          type: string
+    CampaignCreateRequest:
+      type: object
+      required: [name, columns]
+      properties:
+        name:
+          type: string
+          description: Campaign name.
+        precision:
+          type: boolean
+          description: If false the campaign will be completed without human review.
+        columns:
+          type: array
+          description: The fields you require to be included in the job and returned to you.
+          items:
+            type: string
+        contacts_per_company:
+          type: integer
+          description: Number of contacts per company.
+        webhook_url:
+          type: string
+          format: uri
+          description: URL to call when record(s) are finalized on the LeadGenius side.
+        contacts:
+          type: array
+          description: Requested contacts definition.
+          items:
+            $ref: '#/components/schemas/ContactRequirement'
+        companies:
+          type: object
+          description: >-
+            Company filters for a net-new company campaign. Currently only zip_code filtering is
+            supported.
+    ContactRequirement:
+      type: object
+      properties:
+        priority:
+          type: integer
+        seniority:
+          $ref: '#/components/schemas/Seniority'
+        department:
+          $ref: '#/components/schemas/Department'
+        keywords:
+          type: array
+          items:
+            type: string
+        condition:
+          type: string
+    Seniority:
+      type: string
+      description: Contact seniority selector.
+      enum: [VP+, Director+, Manager+, C-level, VP, Director, Manager, Senior, Entry level]
+    Department:
+      type: string
+      description: Contact department selector.
+      enum:
+        - Business Development
+        - Consulting
+        - Design
+        - Education
+        - Engineering
+        - Executive
+        - Finance
+        - Health Services
+        - Human Resources
+        - Information Technology
+        - Legal
+        - Marketing
+        - Media and Communications
+        - Operations
+        - Product
+        - Sales
+    Campaign:
+      type: object
+      properties:
+        slug:
+          type: string
+          description: Campaign slug/identifier on the LeadGenius platform.
+        name:
+          type: string
+        webhook_url:
+          type: string
+          format: uri
+    RecordUploadRequest:
+      type: object
+      required: [slug, fields, records]
+      properties:
+        slug:
+          type: string
+          description: Campaign slug/identifier.
+        fields:
+          type: array
+          description: The field names to be enriched and returned.
+          items:
+            type: string
+        type:
+          type: string
+          description: Upload type, e.g. datahub.
+        records:
+          type: array
+          description: Up to 200 Account/Contact records per request.
+          items:
+            $ref: '#/components/schemas/Record'
+    Record:
+      type: object
+      description: An Account record, optionally carrying related Contact fields.
+      properties:
+        org_record_id:
+          type: string
+          description: The record ID of the company or account (e.g. your CRM account ID).
+        org_company_name:
+          type: string
+          description: The name of the company.
+        org_website:
+          type: string
+          description: The URL for the company's website.
+        org_linkedin_url:
+          type: string
+          description: The URL of the company's LinkedIn profile.
+        org_phone:
+          type: string
+          description: The main phone number of the company.
+        org_street:
+          type: string
+        org_city:
+          type: string
+        org_state:
+          type: string
+        org_zip_code:
+          type: string
+        org_country:
+          type: string
+        org_industry:
+          type: string
+        org_num_employees:
+          type: string
+          description: The number of employees at the company, expressed as a range.
+        org_num_employees_exact:
+          type: integer
+        org_annual_revenue:
+          type: string
+        contact_record_id:
+          type: string
+          description: The record ID of the contact (e.g. your CRM contact or lead ID).
+        contact_first_name:
+          type: string
+        contact_last_name:
+          type: string
+        contact_email:
+          type: string
+        contact_job_title:
+          type: string
+        contact_linkedin_url:
+          type: string
+        contact_department:
+          $ref: '#/components/schemas/Department'
+        contact_seniority:
+          type: string
+          description: The contact's seniority level (C-Level, VP, Director, Manager, Senior, Entry Level).
+    CampaignRetrieveResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Job status.
+          enum: [Completed, In-Progress]
+        records:
+          type: array
+          items:
+            $ref: '#/components/schemas/RetrievedRecord'
+    RetrievedRecord:
+      type: object
+      properties:
+        finalized:
+          type: string
+          description: The date the record was finalized.
+        created:
+          type: string
+          description: The date the record was created.
+        status:
+          type: string
+          description: The current status of the record.
+          enum:
+            - original
+            - finalized_complete
+            - finalized_incomplete
+            - finalized_unenriched
+            - finalized_cancelled
+        data:
+          $ref: '#/components/schemas/Record'
+    ExclusionUploadRequest:
+      type: object
+      required: [records]
+      properties:
+        records:
+          type: array
+          description: The records to exclude. Accounts use entity org; contacts use entity contact.
+          items:
+            $ref: '#/components/schemas/ExclusionRecord'
+    ExclusionRecord:
+      type: object
+      required: [entity]
+      properties:
+        entity:
+          type: string
+          enum: [org, contact]
+        org_linkedin_url:
+          type: string
+        org_company_name:
+          type: string
+        org_phone:
+          type: string
+        org_website:
+          type: string
+        contact_linkedin_url:
+          type: string
+        contact_email:
+          type: string
+        contact_first_name:
+          type: string
+        contact_last_name:
+          type: string
+    RapidEnrichmentRequest:
+      type: object
+      required: [type, data]
+      properties:
+        type:
+          type: string
+          enum: [contact, account, get_contacts]
+        data:
+          $ref: '#/components/schemas/Record'
+        contacts:
+          $ref: '#/components/schemas/RapidContactsSelector'
+    RapidContactsSelector:
+      type: object
+      required: [contacts_per_company, seniority, department]
+      properties:
+        contacts_per_company:
+          type: integer
+          minimum: 1
+          maximum: 10
+          description: 1 to 10 contacts can be requested for the org.
+        seniority:
+          $ref: '#/components/schemas/Seniority'
+        department:
+          $ref: '#/components/schemas/Department'
+    EnrichmentRequest:
+      type: object
+      properties:
+        id:
+          type: integer
+        status:
+          type: string
+          enum: [scheduled, in_progress, erred, cancelled, ok]
+        enrichment_type:
+          type: string
+          enum: [contact, account, get_contacts]
+        created:
+          type: string
+    EnrichedRecord:
+      type: object
+      description: The supported output keys for a rapid-enrichment record.
+      properties:
+        org_annual_revenue: { type: string }
+        org_city: { type: string }
+        org_company_name: { type: string }
+        org_country: { type: string }
+        org_linkedin_url: { type: string }
+        org_num_employees: { type: string }
+        org_state: { type: string }
+        org_street: { type: string }
+        org_website: { type: string }
+        org_zip_code: { type: string }
+        contact_city: { type: string }
+        contact_contact_skills_lg: { type: string }
+        contact_contact_status_lg: { type: string }
+        contact_country: { type: string }
+        contact_department: { type: string }
+        contact_email: { type: string }
+        contact_first_name: { type: string }
+        contact_job_title: { type: string }
+        contact_last_name: { type: string }
+        contact_linkedin_url: { type: string }
+        contact_phone_number: { type: string }
+        contact_seniority: { type: string }
+        contact_previous_company: { type: string }
+        contact_previous_company_linkedin_lg: { type: string }
+        contact_previous_company_website_lg: { type: string }
+    ApiUsageStats:
+      type: object
+      properties:
+        total:
+          type: object
+          properties:
+            uploaded:
+              type: integer
+              description: Uploaded records to API campaigns (all-time).
+            enriched:
+              type: integer
+              description: Enriched records in API campaigns (all-time).
+            deduplicated:
+              type: integer
+              description: Deduplicated records in API campaigns (all-time).
+        current_period:
+          type: object
+          properties:
+            uploaded:
+              type: integer
+            enriched:
+              type: integer
+            deduplicated:
+              type: integer
+        remaining:
+          type: integer
+          description: The number of available records for upload in the current subscription period.
+        start_date:
+          type: string
+          description: Start date of the current subscription period.
+        end_date:
+          type: string
+          description: End date of the current subscription period.
+        updated_at:
+          type: string
+          description: The date and time when these numbers were generated.
+    RecordFinalizedEvent:
+      type: object
+      properties:
+        slug:
+          type: string
+          description: Campaign slug/identifier on the LeadGenius platform.
+        records:
+          type: array
+          description: An array of finalized record ids.
+          items:
+            type: integer
+        uploaded:
+          type: integer
+          description: Total number of records uploaded to the campaign.
+        enriched:
+          type: integer
+          description: Total number of verified records uploaded to the campaign.
+        complete:
+          type: boolean
+          description: Flag indicating whether all uploaded records were verified.

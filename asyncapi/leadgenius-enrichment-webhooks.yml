@@ -1,0 +1,51 @@
+generated: '2026-07-19'
+method: searched
+source: https://docs.leadgenius.com/#webhook
+type: Webhooks
+spec_type: null
+description: >-
+  LeadGenius publishes no AsyncAPI document. Its event surface is a single customer-registered
+  webhook: when a campaign has a webhook_url set, LeadGenius POSTs a JSON payload to that URL every
+  time a record is finalized. This catalog captures that surface verbatim from the API reference.
+transport: HTTPS POST to a customer-supplied URL
+content_type: application/json
+configuration:
+  set_on_create: webhook_url on POST /api/v1/enrichment/campaigns/
+  set_on_update: webhook_url on PATCH /api/v1/enrichment/update/{slug}/
+  set_in_dashboard: >-
+    If the campaign is created in Dashboard, the webhook URL is defined in the Dashboard UI.
+security:
+  signature_verification: not documented
+  authentication: not documented
+  notes: >-
+    LeadGenius does not document a signing secret or signature header for webhook deliveries;
+    consumers should treat the callback URL itself as the shared secret and validate payloads
+    against the retrieve endpoint.
+delivery:
+  retries: not documented
+  ordering: not documented
+events:
+  - name: record.finalized
+    summary: One or more campaign records were finalized and are ready to be downloaded.
+    description: >-
+      Sent every time a record is finalized on the LeadGenius side, whether the record was enriched
+      or had contacts appended. The payload carries the ids of the records ready for retrieval; the
+      consumer then calls GET /api/v1/enrichment/retrieve/{slug}/ to download them.
+    payload:
+      slug:
+        type: string
+        description: Campaign slug/identifier on the LeadGenius platform.
+      records:
+        type: array
+        description: An array of finalized record ids.
+      uploaded:
+        type: integer
+        description: Total number of records uploaded to the campaign.
+      enriched:
+        type: integer
+        description: Total number of verified records uploaded to the campaign.
+      complete:
+        type: boolean
+        description: Flag indicating whether all uploaded records were verified.
+    follow_up_operation: retrieveCampaignRecords
+spec_reference: openapi/leadgenius-enrichment-api-openapi.yml#/webhooks/recordFinalized
