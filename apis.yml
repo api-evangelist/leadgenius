@@ -208,7 +208,7 @@ common:
   - type: CaseStudies
     url: https://www.leadgenius.com/customers
   - type: OpenAPI
-    url: openapi/leadgenius-enrichment-api-openapi.yml
+    url: openapi/_original/leadgenius-enrichment-api-openapi.yml
   - type: Overlay
     url: overlays/leadgenius-enrichment-api-overlay.yaml
   - type: Authentication
