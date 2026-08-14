@@ -32,7 +32,7 @@ x-backed-by:
   - initialized-capital
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-19'
+modified: '2026-08-13'
 tags:
   - Company
   - Data Enrichment
@@ -233,10 +233,18 @@ common:
     url: skills/_index.yml
   - type: LLMsTxt
     url: llms/leadgenius-llms.txt
-  - type: WellKnown
-    url: well-known/leadgenius-well-known.yml
+  - type: Packages
+    url: packages/leadgenius-packages.yml
+  - type: Plans
+    url: plans/leadgenius-plans-pricing.yml
 x-enrichment:
-  date: '2026-07-19'
-  status: backfilled
+  date: '2026-08-13'
+  status: enriched
+  artifacts_added: 2
   pass: local-v1
-  note: backfilled from .gitignore signal + verified work evidence
+  note: >-
+    Prior WellKnown pointer removed - well-known/leadgenius-well-known.yml records a 404 on every
+    path across all four LeadGenius hosts, so the pointer was asserting a surface the provider does
+    not serve. No SDKs pointer (no first-party package exists), no Idempotency pointer (not
+    supported), no StatusPage/Deprecation/Security/Roadmap/Postman/Pricing pointers (no such page is
+    published), no AgentCard (probe missed on every host).
