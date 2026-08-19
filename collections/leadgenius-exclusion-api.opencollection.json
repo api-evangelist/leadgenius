@@ -1,0 +1,41 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "LeadGenius Enrichment Campaigns Exclusion API",
+    "version": "v1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Exclusion",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Submit exclusion records",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://leadgenius.com/api/v1/exclusion/upload/",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Submit the account and contact records you would like LeadGenius to exclude. Account records require a company identifier (org_linkedin_url or org_website); contact records require a contact identifier (contact_linkedin_url or contact_email)."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

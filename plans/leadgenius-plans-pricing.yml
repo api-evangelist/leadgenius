@@ -1,0 +1,53 @@
+generated: '2026-08-13'
+method: searched
+source: https://www.leadgenius.com/apps
+description: >-
+  LeadGenius publishes no pricing page, no plan tiers and no per-record or per-credit rate on any of
+  its own web properties. The company's own FAQ states pricing is quoted per customer. The API is
+  sold as part of a LeadGenius subscription rather than as a separately priced developer product; the
+  only self-serve entry point is a free API trial account that issues an API key without naming a
+  price or a quota.
+plan_count: 0
+currency: null
+billing_model: custom-quote
+plans: []
+trial:
+  available: true
+  self_serve: true
+  url: https://app.leadgenius.com/sign-up
+  what_you_get:
+    - a personal API key issued at registration
+    - links to ready-to-go Postman collections (delivered to trial users, not published publicly)
+    - instructions for setting a webhook for async delivery
+  quota_published: false
+  duration_published: false
+  source: >-
+    https://www.leadgenius.com/resources/introducing-the-new-leadgenius-api-experience-real-time-enrichment-zero-bottlenecks
+published_statement:
+  quote: >-
+    Pricing depends on your needs and scale. Packages are tailored to business size and requirements.
+    Contact LeadGenius for a detailed quote.
+  source: https://www.leadgenius.com/apps
+  context: '"How much does LeadGenius cost?" FAQ'
+evidence:
+  - url: https://www.leadgenius.com/pricing
+    status: 404
+  - url: https://www.leadgenius.com/plans
+    status: 404
+  - url: https://www.leadgenius.com/apps
+    status: 200
+    finding: pricing FAQ answers "contact us for a quote"; no tiers
+  - url: https://www.leadgenius.com/sitemap.xml
+    status: 200
+    finding: no pricing or plans URL appears anywhere in the sitemap
+  - url: https://app.leadgenius.com/sign-up
+    status: 200
+    finding: self-serve API trial registration; no price or quota shown before signup
+notes: >-
+  Third-party resellers and review sites publish estimated LeadGenius contract values. None of those
+  figures are provider-published, so none are recorded here. The honest measurement is that a
+  developer cannot learn what the LeadGenius API costs, or how much volume a subscription includes,
+  from anything LeadGenius publishes.
+related:
+  rate_limits: rate-limits/leadgenius-rate-limits.yml
+  authentication: authentication/leadgenius-authentication.yml

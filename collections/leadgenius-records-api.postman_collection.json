@@ -1,0 +1,1256 @@
+{
+  "item": [
+    {
+      "id": "1c6600f8-8a73-4113-8801-87d073e0173d",
+      "name": "Records",
+      "description": {
+        "content": "Upload records to a campaign and retrieve enriched results.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "a74b312a-c224-43e3-8066-73791ed33941",
+          "name": "Get the upload request sample for a campaign",
+          "request": {
+            "name": "Get the upload request sample for a campaign",
+            "description": {
+              "content": "Returns a sample upload payload for the campaign, describing the field names and campaign identifier needed to send records correctly.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "enrichment",
+                "upload",
+                ":slug",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "slug",
+                  "description": "(Required) Campaign slug/identifier on the LeadGenius platform."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "e71405c8-fa84-4e0e-83f0-2f4886f69d84",
+              "name": "Sample upload request for the campaign.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "enrichment",
+                    "upload",
+                    ":slug",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Campaign slug/identifier on the LeadGenius platform."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"slug\": \"string\",\n  \"fields\": [\n    \"string\",\n    \"string\"\n  ],\n  \"records\": [\n    {\n      \"org_record_id\": \"string\",\n      \"org_company_name\": \"string\",\n      \"org_website\": \"string\",\n      \"org_linkedin_url\": \"string\",\n      \"org_phone\": \"string\",\n      \"org_street\": \"string\",\n      \"org_city\": \"string\",\n      \"org_state\": \"string\",\n      \"org_zip_code\": \"string\",\n      \"org_country\": \"string\",\n      \"org_industry\": \"string\",\n      \"org_num_employees\": \"string\",\n      \"org_num_employees_exact\": 2860,\n      \"org_annual_revenue\": \"string\",\n      \"contact_record_id\": \"string\",\n      \"contact_first_name\": \"string\",\n      \"contact_last_name\": \"string\",\n      \"contact_email\": \"string\",\n      \"contact_job_title\": \"string\",\n      \"contact_linkedin_url\": \"string\",\n      \"contact_department\": \"Health Services\",\n      \"contact_seniority\": \"string\"\n    },\n    {\n      \"org_record_id\": \"string\",\n      \"org_company_name\": \"string\",\n      \"org_website\": \"string\",\n      \"org_linkedin_url\": \"string\",\n      \"org_phone\": \"string\",\n      \"org_street\": \"string\",\n      \"org_city\": \"string\",\n      \"org_state\": \"string\",\n      \"org_zip_code\": \"string\",\n      \"org_country\": \"string\",\n      \"org_industry\": \"string\",\n      \"org_num_employees\": \"string\",\n      \"org_num_employees_exact\": 7033,\n      \"org_annual_revenue\": \"string\",\n      \"contact_record_id\": \"string\",\n      \"contact_first_name\": \"string\",\n      \"contact_last_name\": \"string\",\n      \"contact_email\": \"string\",\n      \"contact_job_title\": \"string\",\n      \"contact_linkedin_url\": \"string\",\n      \"contact_department\": \"Human Resources\",\n      \"contact_seniority\": \"string\"\n    }\n  ],\n  \"type\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "11607ac2-48cc-42f8-957f-d8104e24c661",
+              "name": "Unauthorized -- Your API key is invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "enrichment",
+                    "upload",
+                    ":slug",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Campaign slug/identifier on the LeadGenius platform."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"key_0\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2276c12f-6bc0-4ca5-9ee5-0de782c5a0c6",
+              "name": "Not Found -- The specified resource could not be found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "enrichment",
+                    "upload",
+                    ":slug",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Campaign slug/identifier on the LeadGenius platform."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"key_0\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a0fc9ba3-a79d-45ff-869a-231f6360a092",
+              "name": "Too Many Requests -- You're exceeding your rate-limits (50 requests per minute).",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "enrichment",
+                    "upload",
+                    ":slug",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Campaign slug/identifier on the LeadGenius platform."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"key_0\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2605f81f-d7bf-43c1-bcfd-830655ba47d1",
+              "name": "Internal Server Error -- We had a problem with our server. Try again later.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "enrichment",
+                    "upload",
+                    ":slug",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Campaign slug/identifier on the LeadGenius platform."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"key_0\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d094888d-00b5-4526-a211-53e13149b302",
+          "name": "Upload records to a campaign",
+          "request": {
+            "name": "Upload records to a campaign",
+            "description": {
+              "content": "Upload up to 200 Account and/or Contact records per request to the campaign for enrichment or contact append.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "enrichment",
+                "upload",
+                ":slug",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "slug",
+                  "description": "(Required) Campaign slug/identifier on the LeadGenius platform."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"slug\": \"<string>\",\n  \"fields\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"records\": [\n    {\n      \"org_record_id\": \"<string>\",\n      \"org_company_name\": \"<string>\",\n      \"org_website\": \"<string>\",\n      \"org_linkedin_url\": \"<string>\",\n      \"org_phone\": \"<string>\",\n      \"org_street\": \"<string>\",\n      \"org_city\": \"<string>\",\n      \"org_state\": \"<string>\",\n      \"org_zip_code\": \"<string>\",\n      \"org_country\": \"<string>\",\n      \"org_industry\": \"<string>\",\n      \"org_num_employees\": \"<string>\",\n      \"org_num_employees_exact\": \"<integer>\",\n      \"org_annual_revenue\": \"<string>\",\n      \"contact_record_id\": \"<string>\",\n      \"contact_first_name\": \"<string>\",\n      \"contact_last_name\": \"<string>\",\n      \"contact_email\": \"<string>\",\n      \"contact_job_title\": \"<string>\",\n      \"contact_linkedin_url\": \"<string>\",\n      \"contact_department\": \"<string>\",\n      \"contact_seniority\": \"<string>\"\n    },\n    {\n      \"org_record_id\": \"<string>\",\n      \"org_company_name\": \"<string>\",\n      \"org_website\": \"<string>\",\n      \"org_linkedin_url\": \"<string>\",\n      \"org_phone\": \"<string>\",\n      \"org_street\": \"<string>\",\n      \"org_city\": \"<string>\",\n      \"org_state\": \"<string>\",\n      \"org_zip_code\": \"<string>\",\n      \"org_country\": \"<string>\",\n      \"org_industry\": \"<string>\",\n      \"org_num_employees\": \"<string>\",\n      \"org_num_employees_exact\": \"<integer>\",\n      \"org_annual_revenue\": \"<string>\",\n      \"contact_record_id\": \"<string>\",\n      \"contact_first_name\": \"<string>\",\n      \"contact_last_name\": \"<string>\",\n      \"contact_email\": \"<string>\",\n      \"contact_job_title\": \"<string>\",\n      \"contact_linkedin_url\": \"<string>\",\n      \"contact_department\": \"<string>\",\n      \"contact_seniority\": \"<string>\"\n    }\n  ],\n  \"type\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "6a6095e9-9bd9-46d9-878a-4c96881a390d",
+              "name": "Records accepted for enrichment.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "enrichment",
+                    "upload",
+                    ":slug",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Campaign slug/identifier on the LeadGenius platform."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"slug\": \"<string>\",\n  \"fields\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"records\": [\n    {\n      \"org_record_id\": \"string\",\n      \"org_company_name\": \"string\",\n      \"org_website\": \"string\",\n      \"org_linkedin_url\": \"string\",\n      \"org_phone\": \"string\",\n      \"org_street\": \"string\",\n      \"org_city\": \"string\",\n      \"org_state\": \"string\",\n      \"org_zip_code\": \"string\",\n      \"org_country\": \"string\",\n      \"org_industry\": \"string\",\n      \"org_num_employees\": \"string\",\n      \"org_num_employees_exact\": 2816,\n      \"org_annual_revenue\": \"string\",\n      \"contact_record_id\": \"string\",\n      \"contact_first_name\": \"string\",\n      \"contact_last_name\": \"string\",\n      \"contact_email\": \"string\",\n      \"contact_job_title\": \"string\",\n      \"contact_linkedin_url\": \"string\",\n      \"contact_department\": \"Consulting\",\n      \"contact_seniority\": \"string\"\n    },\n    {\n      \"org_record_id\": \"string\",\n      \"org_company_name\": \"string\",\n      \"org_website\": \"string\",\n      \"org_linkedin_url\": \"string\",\n      \"org_phone\": \"string\",\n      \"org_street\": \"string\",\n      \"org_city\": \"string\",\n      \"org_state\": \"string\",\n      \"org_zip_code\": \"string\",\n      \"org_country\": \"string\",\n      \"org_industry\": \"string\",\n      \"org_num_employees\": \"string\",\n      \"org_num_employees_exact\": 7471,\n      \"org_annual_revenue\": \"string\",\n      \"contact_record_id\": \"string\",\n      \"contact_first_name\": \"string\",\n      \"contact_last_name\": \"string\",\n      \"contact_email\": \"string\",\n      \"contact_job_title\": \"string\",\n      \"contact_linkedin_url\": \"string\",\n      \"contact_department\": \"Information Technology\",\n      \"contact_seniority\": \"string\"\n    }\n  ],\n  \"type\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "d367647d-7ad2-44e8-a952-614bc7f5322f",
+              "name": "Bad Request -- Your request is invalid in some way.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "enrichment",
+                    "upload",
+                    ":slug",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Campaign slug/identifier on the LeadGenius platform."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"slug\": \"<string>\",\n  \"fields\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"records\": [\n    {\n      \"org_record_id\": \"string\",\n      \"org_company_name\": \"string\",\n      \"org_website\": \"string\",\n      \"org_linkedin_url\": \"string\",\n      \"org_phone\": \"string\",\n      \"org_street\": \"string\",\n      \"org_city\": \"string\",\n      \"org_state\": \"string\",\n      \"org_zip_code\": \"string\",\n      \"org_country\": \"string\",\n      \"org_industry\": \"string\",\n      \"org_num_employees\": \"string\",\n      \"org_num_employees_exact\": 2816,\n      \"org_annual_revenue\": \"string\",\n      \"contact_record_id\": \"string\",\n      \"contact_first_name\": \"string\",\n      \"contact_last_name\": \"string\",\n      \"contact_email\": \"string\",\n      \"contact_job_title\": \"string\",\n      \"contact_linkedin_url\": \"string\",\n      \"contact_department\": \"Consulting\",\n      \"contact_seniority\": \"string\"\n    },\n    {\n      \"org_record_id\": \"string\",\n      \"org_company_name\": \"string\",\n      \"org_website\": \"string\",\n      \"org_linkedin_url\": \"string\",\n      \"org_phone\": \"string\",\n      \"org_street\": \"string\",\n      \"org_city\": \"string\",\n      \"org_state\": \"string\",\n      \"org_zip_code\": \"string\",\n      \"org_country\": \"string\",\n      \"org_industry\": \"string\",\n      \"org_num_employees\": \"string\",\n      \"org_num_employees_exact\": 7471,\n      \"org_annual_revenue\": \"string\",\n      \"contact_record_id\": \"string\",\n      \"contact_first_name\": \"string\",\n      \"contact_last_name\": \"string\",\n      \"contact_email\": \"string\",\n      \"contact_job_title\": \"string\",\n      \"contact_linkedin_url\": \"string\",\n      \"contact_department\": \"Information Technology\",\n      \"contact_seniority\": \"string\"\n    }\n  ],\n  \"type\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"key_0\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f036d89b-963a-4040-95a3-9dba20905416",
+              "name": "Unauthorized -- Your API key is invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "enrichment",
+                    "upload",
+                    ":slug",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Campaign slug/identifier on the LeadGenius platform."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"slug\": \"<string>\",\n  \"fields\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"records\": [\n    {\n      \"org_record_id\": \"string\",\n      \"org_company_name\": \"string\",\n      \"org_website\": \"string\",\n      \"org_linkedin_url\": \"string\",\n      \"org_phone\": \"string\",\n      \"org_street\": \"string\",\n      \"org_city\": \"string\",\n      \"org_state\": \"string\",\n      \"org_zip_code\": \"string\",\n      \"org_country\": \"string\",\n      \"org_industry\": \"string\",\n      \"org_num_employees\": \"string\",\n      \"org_num_employees_exact\": 2816,\n      \"org_annual_revenue\": \"string\",\n      \"contact_record_id\": \"string\",\n      \"contact_first_name\": \"string\",\n      \"contact_last_name\": \"string\",\n      \"contact_email\": \"string\",\n      \"contact_job_title\": \"string\",\n      \"contact_linkedin_url\": \"string\",\n      \"contact_department\": \"Consulting\",\n      \"contact_seniority\": \"string\"\n    },\n    {\n      \"org_record_id\": \"string\",\n      \"org_company_name\": \"string\",\n      \"org_website\": \"string\",\n      \"org_linkedin_url\": \"string\",\n      \"org_phone\": \"string\",\n      \"org_street\": \"string\",\n      \"org_city\": \"string\",\n      \"org_state\": \"string\",\n      \"org_zip_code\": \"string\",\n      \"org_country\": \"string\",\n      \"org_industry\": \"string\",\n      \"org_num_employees\": \"string\",\n      \"org_num_employees_exact\": 7471,\n      \"org_annual_revenue\": \"string\",\n      \"contact_record_id\": \"string\",\n      \"contact_first_name\": \"string\",\n      \"contact_last_name\": \"string\",\n      \"contact_email\": \"string\",\n      \"contact_job_title\": \"string\",\n      \"contact_linkedin_url\": \"string\",\n      \"contact_department\": \"Information Technology\",\n      \"contact_seniority\": \"string\"\n    }\n  ],\n  \"type\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"key_0\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1f83626a-9e61-4910-9a9c-6fe040e2c2a6",
+              "name": "Not Found -- The specified resource could not be found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "enrichment",
+                    "upload",
+                    ":slug",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Campaign slug/identifier on the LeadGenius platform."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"slug\": \"<string>\",\n  \"fields\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"records\": [\n    {\n      \"org_record_id\": \"string\",\n      \"org_company_name\": \"string\",\n      \"org_website\": \"string\",\n      \"org_linkedin_url\": \"string\",\n      \"org_phone\": \"string\",\n      \"org_street\": \"string\",\n      \"org_city\": \"string\",\n      \"org_state\": \"string\",\n      \"org_zip_code\": \"string\",\n      \"org_country\": \"string\",\n      \"org_industry\": \"string\",\n      \"org_num_employees\": \"string\",\n      \"org_num_employees_exact\": 2816,\n      \"org_annual_revenue\": \"string\",\n      \"contact_record_id\": \"string\",\n      \"contact_first_name\": \"string\",\n      \"contact_last_name\": \"string\",\n      \"contact_email\": \"string\",\n      \"contact_job_title\": \"string\",\n      \"contact_linkedin_url\": \"string\",\n      \"contact_department\": \"Consulting\",\n      \"contact_seniority\": \"string\"\n    },\n    {\n      \"org_record_id\": \"string\",\n      \"org_company_name\": \"string\",\n      \"org_website\": \"string\",\n      \"org_linkedin_url\": \"string\",\n      \"org_phone\": \"string\",\n      \"org_street\": \"string\",\n      \"org_city\": \"string\",\n      \"org_state\": \"string\",\n      \"org_zip_code\": \"string\",\n      \"org_country\": \"string\",\n      \"org_industry\": \"string\",\n      \"org_num_employees\": \"string\",\n      \"org_num_employees_exact\": 7471,\n      \"org_annual_revenue\": \"string\",\n      \"contact_record_id\": \"string\",\n      \"contact_first_name\": \"string\",\n      \"contact_last_name\": \"string\",\n      \"contact_email\": \"string\",\n      \"contact_job_title\": \"string\",\n      \"contact_linkedin_url\": \"string\",\n      \"contact_department\": \"Information Technology\",\n      \"contact_seniority\": \"string\"\n    }\n  ],\n  \"type\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"key_0\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0d3d7fa7-1622-4730-9e98-afb5e9b8ba0c",
+              "name": "Too Many Requests -- You're exceeding your rate-limits (50 requests per minute).",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "enrichment",
+                    "upload",
+                    ":slug",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Campaign slug/identifier on the LeadGenius platform."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"slug\": \"<string>\",\n  \"fields\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"records\": [\n    {\n      \"org_record_id\": \"string\",\n      \"org_company_name\": \"string\",\n      \"org_website\": \"string\",\n      \"org_linkedin_url\": \"string\",\n      \"org_phone\": \"string\",\n      \"org_street\": \"string\",\n      \"org_city\": \"string\",\n      \"org_state\": \"string\",\n      \"org_zip_code\": \"string\",\n      \"org_country\": \"string\",\n      \"org_industry\": \"string\",\n      \"org_num_employees\": \"string\",\n      \"org_num_employees_exact\": 2816,\n      \"org_annual_revenue\": \"string\",\n      \"contact_record_id\": \"string\",\n      \"contact_first_name\": \"string\",\n      \"contact_last_name\": \"string\",\n      \"contact_email\": \"string\",\n      \"contact_job_title\": \"string\",\n      \"contact_linkedin_url\": \"string\",\n      \"contact_department\": \"Consulting\",\n      \"contact_seniority\": \"string\"\n    },\n    {\n      \"org_record_id\": \"string\",\n      \"org_company_name\": \"string\",\n      \"org_website\": \"string\",\n      \"org_linkedin_url\": \"string\",\n      \"org_phone\": \"string\",\n      \"org_street\": \"string\",\n      \"org_city\": \"string\",\n      \"org_state\": \"string\",\n      \"org_zip_code\": \"string\",\n      \"org_country\": \"string\",\n      \"org_industry\": \"string\",\n      \"org_num_employees\": \"string\",\n      \"org_num_employees_exact\": 7471,\n      \"org_annual_revenue\": \"string\",\n      \"contact_record_id\": \"string\",\n      \"contact_first_name\": \"string\",\n      \"contact_last_name\": \"string\",\n      \"contact_email\": \"string\",\n      \"contact_job_title\": \"string\",\n      \"contact_linkedin_url\": \"string\",\n      \"contact_department\": \"Information Technology\",\n      \"contact_seniority\": \"string\"\n    }\n  ],\n  \"type\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"key_0\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "34c914e3-cacc-41cb-997b-ae6d97bcb76f",
+              "name": "Internal Server Error -- We had a problem with our server. Try again later.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "enrichment",
+                    "upload",
+                    ":slug",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Campaign slug/identifier on the LeadGenius platform."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"slug\": \"<string>\",\n  \"fields\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"records\": [\n    {\n      \"org_record_id\": \"string\",\n      \"org_company_name\": \"string\",\n      \"org_website\": \"string\",\n      \"org_linkedin_url\": \"string\",\n      \"org_phone\": \"string\",\n      \"org_street\": \"string\",\n      \"org_city\": \"string\",\n      \"org_state\": \"string\",\n      \"org_zip_code\": \"string\",\n      \"org_country\": \"string\",\n      \"org_industry\": \"string\",\n      \"org_num_employees\": \"string\",\n      \"org_num_employees_exact\": 2816,\n      \"org_annual_revenue\": \"string\",\n      \"contact_record_id\": \"string\",\n      \"contact_first_name\": \"string\",\n      \"contact_last_name\": \"string\",\n      \"contact_email\": \"string\",\n      \"contact_job_title\": \"string\",\n      \"contact_linkedin_url\": \"string\",\n      \"contact_department\": \"Consulting\",\n      \"contact_seniority\": \"string\"\n    },\n    {\n      \"org_record_id\": \"string\",\n      \"org_company_name\": \"string\",\n      \"org_website\": \"string\",\n      \"org_linkedin_url\": \"string\",\n      \"org_phone\": \"string\",\n      \"org_street\": \"string\",\n      \"org_city\": \"string\",\n      \"org_state\": \"string\",\n      \"org_zip_code\": \"string\",\n      \"org_country\": \"string\",\n      \"org_industry\": \"string\",\n      \"org_num_employees\": \"string\",\n      \"org_num_employees_exact\": 7471,\n      \"org_annual_revenue\": \"string\",\n      \"contact_record_id\": \"string\",\n      \"contact_first_name\": \"string\",\n      \"contact_last_name\": \"string\",\n      \"contact_email\": \"string\",\n      \"contact_job_title\": \"string\",\n      \"contact_linkedin_url\": \"string\",\n      \"contact_department\": \"Information Technology\",\n      \"contact_seniority\": \"string\"\n    }\n  ],\n  \"type\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"key_0\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "4c2ea68b-4205-4f42-884e-a4da3ca74f6b",
+          "name": "Query campaign status and retrieve finalized records",
+          "request": {
+            "name": "Query campaign status and retrieve finalized records",
+            "description": {
+              "content": "Query a running job to find out the status of an API campaign. If the campaign has been completed you receive the completed data. Results are paginated at 100 records.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "enrichment",
+                "retrieve",
+                ":slug",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "id",
+                  "value": "<integer>",
+                  "description": "Return only the record(s) with the assigned ID. Repeat the parameter to request several ids (?id=1&id=2)."
+                },
+                {
+                  "disabled": false,
+                  "key": "id",
+                  "value": "<integer>",
+                  "description": "Return only the record(s) with the assigned ID. Repeat the parameter to request several ids (?id=1&id=2)."
+                },
+                {
+                  "disabled": false,
+                  "key": "finalized_from",
+                  "value": "<string>",
+                  "description": "Filter records by date of finalization (from). Formats 2022-01-02 or 2022-01-03T18:03:11Z."
+                },
+                {
+                  "disabled": false,
+                  "key": "finalized_to",
+                  "value": "<string>",
+                  "description": "Filter records by date of finalization (to). Formats 2022-01-02 or 2022-01-03T18:03:11Z."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "slug",
+                  "description": "(Required) Campaign slug/identifier on the LeadGenius platform."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "9a0be79e-5247-4bd9-8df0-e7d48290249c",
+              "name": "Campaign job status and, when completed, the finalized records.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "enrichment",
+                    "retrieve",
+                    ":slug",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "id",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "id",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "finalized_from",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "finalized_to",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Campaign slug/identifier on the LeadGenius platform."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"In-Progress\",\n  \"records\": [\n    {\n      \"finalized\": \"string\",\n      \"created\": \"string\",\n      \"status\": \"finalized_unenriched\",\n      \"data\": {\n        \"org_record_id\": \"string\",\n        \"org_company_name\": \"string\",\n        \"org_website\": \"string\",\n        \"org_linkedin_url\": \"string\",\n        \"org_phone\": \"string\",\n        \"org_street\": \"string\",\n        \"org_city\": \"string\",\n        \"org_state\": \"string\",\n        \"org_zip_code\": \"string\",\n        \"org_country\": \"string\",\n        \"org_industry\": \"string\",\n        \"org_num_employees\": \"string\",\n        \"org_num_employees_exact\": 9721,\n        \"org_annual_revenue\": \"string\",\n        \"contact_record_id\": \"string\",\n        \"contact_first_name\": \"string\",\n        \"contact_last_name\": \"string\",\n        \"contact_email\": \"string\",\n        \"contact_job_title\": \"string\",\n        \"contact_linkedin_url\": \"string\",\n        \"contact_department\": \"Media and Communications\",\n        \"contact_seniority\": \"string\"\n      }\n    },\n    {\n      \"finalized\": \"string\",\n      \"created\": \"string\",\n      \"status\": \"finalized_cancelled\",\n      \"data\": {\n        \"org_record_id\": \"string\",\n        \"org_company_name\": \"string\",\n        \"org_website\": \"string\",\n        \"org_linkedin_url\": \"string\",\n        \"org_phone\": \"string\",\n        \"org_street\": \"string\",\n        \"org_city\": \"string\",\n        \"org_state\": \"string\",\n        \"org_zip_code\": \"string\",\n        \"org_country\": \"string\",\n        \"org_industry\": \"string\",\n        \"org_num_employees\": \"string\",\n        \"org_num_employees_exact\": 6928,\n        \"org_annual_revenue\": \"string\",\n        \"contact_record_id\": \"string\",\n        \"contact_first_name\": \"string\",\n        \"contact_last_name\": \"string\",\n        \"contact_email\": \"string\",\n        \"contact_job_title\": \"string\",\n        \"contact_linkedin_url\": \"string\",\n        \"contact_department\": \"Human Resources\",\n        \"contact_seniority\": \"string\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6ae5fc95-501e-41d5-8e82-a2b6c7c226e1",
+              "name": "Unauthorized -- Your API key is invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "enrichment",
+                    "retrieve",
+                    ":slug",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "id",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "id",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "finalized_from",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "finalized_to",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Campaign slug/identifier on the LeadGenius platform."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"key_0\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "52aff52d-b4a8-4125-a637-d43c45cf28cd",
+              "name": "Not Found -- The specified resource could not be found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "enrichment",
+                    "retrieve",
+                    ":slug",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "id",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "id",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "finalized_from",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "finalized_to",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Campaign slug/identifier on the LeadGenius platform."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"key_0\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3b911e8f-0993-471c-8d24-02d862495854",
+              "name": "Too Many Requests -- You're exceeding your rate-limits (50 requests per minute).",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "enrichment",
+                    "retrieve",
+                    ":slug",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "id",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "id",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "finalized_from",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "finalized_to",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Campaign slug/identifier on the LeadGenius platform."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"key_0\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6f6b5cdd-2465-4a35-8939-7b1af8a11c5f",
+              "name": "Internal Server Error -- We had a problem with our server. Try again later.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "enrichment",
+                    "retrieve",
+                    ":slug",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "id",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "id",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "finalized_from",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "finalized_to",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Campaign slug/identifier on the LeadGenius platform."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"key_0\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://leadgenius.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "b494f4a2-b8f6-4094-9108-f53adb8ad301",
+    "name": "LeadGenius Enrichment Campaigns Records API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The LeadGenius public API is a RESTful API that sends and receives records from the LeadGenius Dashboard product. Records are associated to Campaigns in Dashboard and consist of Accounts that can optionally include related Contact records. A Campaign can be created in Dashboard using the Dashboard Wizard or via the API; any Campaign in Dashboard can be accessed using the API.\n\nTwo modes are offered. **Campaign (batch) enrichment** uploads records to a Campaign, LeadGenius enriches or appends contacts, and a webhook fires when records are finalized so they can be retrieved. **Rapid enrichment** submits a single account or contact (or a get_contacts request) for real-time enrichment and retrieves the enriched record by id.\n\nThis description was captured by the API Evangelist enrichment pipeline from the published LeadGenius API reference at https://docs.leadgenius.com/ — LeadGenius does not publish a machine readable OpenAPI definition. Every path, method, parameter, field and error code below is transcribed from that reference and its Python/JavaScript/cURL samples.\n\nContact Support:\n Name: LeadGenius Sales\n Email: sales@leadgenius.com",
+      "type": "text/plain"
+    }
+  }
+}

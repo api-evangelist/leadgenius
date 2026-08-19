@@ -1,0 +1,88 @@
+generated: '2026-08-13'
+method: searched
+source: >-
+  npm registry search, PyPI, RubyGems, crates.io, Packagist, the GitHub LeadGenius organization and
+  the published API reference at https://docs.leadgenius.com/
+description: >-
+  LeadGenius, Inc. publishes no first-party client library, SDK or CLI in any public package
+  registry. The API reference at docs.leadgenius.com ships copy-paste Python, JavaScript and cURL
+  request samples only — those are code samples in a Slate docs template, not a distributed package.
+  Every registry probed either returned 404 for the obvious names or returned packages belonging to a
+  different product. Recorded as an honest zero.
+package_count: 0
+official_package_count: 0
+packages: []
+registries_probed:
+  - registry: npm
+    query: leadgenius
+    status: 200
+    first_party_hits: 0
+    note: 5 results, all third-party — see not_first_party below.
+  - registry: pypi
+    names: [leadgenius, leadgenius-api, leadgenius-sdk]
+    status: 404
+    first_party_hits: 0
+  - registry: rubygems
+    names: [leadgenius]
+    status: 404
+    first_party_hits: 0
+  - registry: crates.io
+    names: [leadgenius]
+    status: 403
+    first_party_hits: 0
+    note: crates.io rejected the unauthenticated crate lookup (403); no LeadGenius crate is known.
+  - registry: packagist
+    names: [leadgenius/leadgenius]
+    status: 404
+    first_party_hits: 0
+not_first_party:
+  - name: leadgenius-cli
+    registry: npm
+    version: 2.0.15
+    published: '2026-05-03'
+    author: Thierry Teisseire
+    homepage: https://last.leadgenius.app
+    declared_repository: https://github.com/leadgenius/cli
+    verdict: not-leadgenius-inc
+    evidence: >-
+      Describes itself as the "LeadGenius Pro CLI" for a product at last.leadgenius.app, is published
+      by an individual author, and its declared repository https://github.com/leadgenius/cli returns
+      404 on the GitHub API — the package points at a repo that does not exist in the LeadGenius
+      organization. Not a LeadGenius, Inc. artifact.
+  - name: '@thierryteisseire/leadgenius-skill'
+    registry: npm
+    version: 2.0.7
+    published: '2026-02-12'
+    verdict: not-leadgenius-inc
+    evidence: Scoped to the same individual author; targets "LeadGenius Pro" with Cognito JWT auth, not the Token-header LeadGenius Enrichment API.
+  - name: '@thierryteisseire/salesforce-leadgenius'
+    registry: npm
+    version: 1.0.0
+    published: '2026-02-14'
+    verdict: not-leadgenius-inc
+  - name: leadgenius-cli-skill
+    registry: npm
+    version: 1.0.0
+    published: '2026-03-05'
+    verdict: not-leadgenius-inc
+    evidence: Agent skill for the "LeadGenius Pro Automation API" and its lgp CLI; same third-party author.
+github:
+  organization: https://github.com/leadgenius
+  public_repos: 1
+  repos:
+    - name: lead-genius
+      description: Lead Genius Website
+      language: CSS
+      last_pushed: '2016-01-02'
+  finding: >-
+    The GitHub organization carries one CSS website repo last pushed in January 2016 and publishes no
+    API client, no spec and no examples. There is no first-party source distribution to catalog.
+notes: >-
+  A consumer of the LeadGenius Enrichment API writes their own HTTP client. Because LeadGenius also
+  publishes no machine-readable OpenAPI definition, there is nothing to generate a client from
+  either — the only starting point is the transcribed spec in this repository. The Postman
+  collections LeadGenius advertises are delivered to trial-account holders, not published to the
+  public Postman network (searched 2026-08-13: no public LeadGenius workspace or collection).
+related:
+  authentication: authentication/leadgenius-authentication.yml
+  openapi: openapi/_original/leadgenius-enrichment-api-openapi.yml

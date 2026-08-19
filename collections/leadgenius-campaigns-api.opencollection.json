@@ -1,0 +1,64 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "LeadGenius Enrichment Campaigns API",
+    "version": "v1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Campaigns",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create an API campaign",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://leadgenius.com/api/v1/enrichment/campaigns/",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a Campaign that records will be uploaded to. Three kinds of campaign can be created via the API — Single Fields (Account or Contact), Standard Fields (Account or Contact), and Contact Fields. The campaign definition determines whether uploaded records are enriched, appended with new contacts, or both."
+        },
+        {
+          "info": {
+            "name": "Update a campaign",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://leadgenius.com/api/v1/enrichment/update/:slug/",
+            "params": [
+              {
+                "name": "slug",
+                "value": "",
+                "type": "path",
+                "description": "Campaign slug/identifier on the LeadGenius platform."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update the campaign's webhook URL."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

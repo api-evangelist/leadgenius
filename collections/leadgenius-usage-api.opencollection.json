@@ -1,0 +1,48 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "LeadGenius Enrichment Campaigns Usage API",
+    "version": "v1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Usage",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Check API usage stats",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://leadgenius.com/api/v1/enrichment/status/"
+          },
+          "docs": "Check the current status of your API subscription — all-time and current-period uploaded, enriched and deduplicated record counts, remaining records, and the subscription period. These numbers can be up to 10 minutes out of date."
+        },
+        {
+          "info": {
+            "name": "Get enrichment request statistics",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://leadgenius.com/api/v1/enrichment/rapid/stats/"
+          },
+          "docs": "Enrichment requests stats."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,103 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "LeadGenius Enrichment Campaigns Rapid Enrichment API",
+    "version": "v1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Rapid Enrichment",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List enrichment requests",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://leadgenius.com/api/v1/enrichment/rapid/",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "query",
+                "description": "Request id."
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "Enrichment request status."
+              },
+              {
+                "name": "enrichment_type",
+                "value": "",
+                "type": "query",
+                "description": "Enrichment request type."
+              },
+              {
+                "name": "created_from",
+                "value": "",
+                "type": "query",
+                "description": "Created-date filter (from). Formats 2022-01-02 or 2022-01-03T18:03:11Z."
+              },
+              {
+                "name": "created_to",
+                "value": "",
+                "type": "query",
+                "description": "Created-date filter (to). Formats 2022-01-02 or 2022-01-03T18:03:11Z."
+              }
+            ]
+          },
+          "docs": "Get a list of enrichment requests, optionally filtered by id, status, type or created date."
+        },
+        {
+          "info": {
+            "name": "Submit a rapid enrichment request",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://leadgenius.com/api/v1/enrichment/rapid/",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Submit a real-time enrichment request. `type` selects the mode — `contact` enriches a single contact, `account` enriches a single company, and `get_contacts` returns matched contacts for a company using the supplied contacts definition."
+        },
+        {
+          "info": {
+            "name": "Retrieve an enriched record",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://leadgenius.com/api/v1/enrichment/rapid/:id/",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Enrichment request id."
+              }
+            ]
+          },
+          "docs": "Get the enriched record data for a rapid enrichment request."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

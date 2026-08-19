@@ -1,0 +1,105 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "LeadGenius Enrichment Campaigns Records API",
+    "version": "v1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Records",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get the upload request sample for a campaign",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://leadgenius.com/api/v1/enrichment/upload/:slug/",
+            "params": [
+              {
+                "name": "slug",
+                "value": "",
+                "type": "path",
+                "description": "Campaign slug/identifier on the LeadGenius platform."
+              }
+            ]
+          },
+          "docs": "Returns a sample upload payload for the campaign, describing the field names and campaign identifier needed to send records correctly."
+        },
+        {
+          "info": {
+            "name": "Upload records to a campaign",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://leadgenius.com/api/v1/enrichment/upload/:slug/",
+            "params": [
+              {
+                "name": "slug",
+                "value": "",
+                "type": "path",
+                "description": "Campaign slug/identifier on the LeadGenius platform."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Upload up to 200 Account and/or Contact records per request to the campaign for enrichment or contact append."
+        },
+        {
+          "info": {
+            "name": "Query campaign status and retrieve finalized records",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://leadgenius.com/api/v1/enrichment/retrieve/:slug/",
+            "params": [
+              {
+                "name": "slug",
+                "value": "",
+                "type": "path",
+                "description": "Campaign slug/identifier on the LeadGenius platform."
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "query",
+                "description": "Return only the record(s) with the assigned ID. Repeat the parameter to request several ids (?id=1&id=2)."
+              },
+              {
+                "name": "finalized_from",
+                "value": "",
+                "type": "query",
+                "description": "Filter records by date of finalization (from). Formats 2022-01-02 or 2022-01-03T18:03:11Z."
+              },
+              {
+                "name": "finalized_to",
+                "value": "",
+                "type": "query",
+                "description": "Filter records by date of finalization (to). Formats 2022-01-02 or 2022-01-03T18:03:11Z."
+              }
+            ]
+          },
+          "docs": "Query a running job to find out the status of an API campaign. If the campaign has been completed you receive the completed data. Results are paginated at 100 records."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

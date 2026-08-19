@@ -1,0 +1,372 @@
+{
+  "item": [
+    {
+      "id": "1d747195-ae83-4469-957c-bbbe82a994b4",
+      "name": "Exclusion",
+      "description": {
+        "content": "Submit accounts and contacts that should be excluded from enrichment.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "60b8ba7f-e52f-4423-ad3a-be46dc40354e",
+          "name": "Submit exclusion records",
+          "request": {
+            "name": "Submit exclusion records",
+            "description": {
+              "content": "Submit the account and contact records you would like LeadGenius to exclude. Account records require a company identifier (org_linkedin_url or org_website); contact records require a contact identifier (contact_linkedin_url or contact_email).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "exclusion",
+                "upload",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"records\": [\n    {\n      \"entity\": \"<string>\",\n      \"org_linkedin_url\": \"<string>\",\n      \"org_company_name\": \"<string>\",\n      \"org_phone\": \"<string>\",\n      \"org_website\": \"<string>\",\n      \"contact_linkedin_url\": \"<string>\",\n      \"contact_email\": \"<string>\",\n      \"contact_first_name\": \"<string>\",\n      \"contact_last_name\": \"<string>\"\n    },\n    {\n      \"entity\": \"<string>\",\n      \"org_linkedin_url\": \"<string>\",\n      \"org_company_name\": \"<string>\",\n      \"org_phone\": \"<string>\",\n      \"org_website\": \"<string>\",\n      \"contact_linkedin_url\": \"<string>\",\n      \"contact_email\": \"<string>\",\n      \"contact_first_name\": \"<string>\",\n      \"contact_last_name\": \"<string>\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "44dd36fc-84b6-49fb-aa86-4ecaad462a76",
+              "name": "Exclusion records accepted.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "exclusion",
+                    "upload",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"records\": [\n    {\n      \"entity\": \"contact\",\n      \"contact_first_name\": \"Jane\",\n      \"contact_last_name\": \"Doe\",\n      \"contact_email\": \"jane@simplefake.org\",\n      \"org_company_name\": \"Zinc Holdings\",\n      \"org_website\": \"simplefake.org\"\n    },\n    {\n      \"entity\": \"org\",\n      \"org_company_name\": \"EarthStar\",\n      \"org_website\": \"earthstar.org\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "54f5a124-c835-42c0-be1d-57deef010707",
+              "name": "Bad Request -- Your request is invalid in some way.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "exclusion",
+                    "upload",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"records\": [\n    {\n      \"entity\": \"contact\",\n      \"contact_first_name\": \"Jane\",\n      \"contact_last_name\": \"Doe\",\n      \"contact_email\": \"jane@simplefake.org\",\n      \"org_company_name\": \"Zinc Holdings\",\n      \"org_website\": \"simplefake.org\"\n    },\n    {\n      \"entity\": \"org\",\n      \"org_company_name\": \"EarthStar\",\n      \"org_website\": \"earthstar.org\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"key_0\": [\n    \"string\",\n    \"string\"\n  ],\n  \"key_1\": [\n    \"string\",\n    \"string\"\n  ],\n  \"key_2\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e64e5100-3299-4325-becd-bcf7566fac8e",
+              "name": "Unauthorized -- Your API key is invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "exclusion",
+                    "upload",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"records\": [\n    {\n      \"entity\": \"contact\",\n      \"contact_first_name\": \"Jane\",\n      \"contact_last_name\": \"Doe\",\n      \"contact_email\": \"jane@simplefake.org\",\n      \"org_company_name\": \"Zinc Holdings\",\n      \"org_website\": \"simplefake.org\"\n    },\n    {\n      \"entity\": \"org\",\n      \"org_company_name\": \"EarthStar\",\n      \"org_website\": \"earthstar.org\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"key_0\": [\n    \"string\",\n    \"string\"\n  ],\n  \"key_1\": [\n    \"string\",\n    \"string\"\n  ],\n  \"key_2\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c085ecaa-4832-46b9-8fe4-0cb60c7a96cb",
+              "name": "Too Many Requests -- You're exceeding your rate-limits (50 requests per minute).",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "exclusion",
+                    "upload",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"records\": [\n    {\n      \"entity\": \"contact\",\n      \"contact_first_name\": \"Jane\",\n      \"contact_last_name\": \"Doe\",\n      \"contact_email\": \"jane@simplefake.org\",\n      \"org_company_name\": \"Zinc Holdings\",\n      \"org_website\": \"simplefake.org\"\n    },\n    {\n      \"entity\": \"org\",\n      \"org_company_name\": \"EarthStar\",\n      \"org_website\": \"earthstar.org\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"key_0\": [\n    \"string\",\n    \"string\"\n  ],\n  \"key_1\": [\n    \"string\",\n    \"string\"\n  ],\n  \"key_2\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b979b612-8e25-46bb-b122-8db8d5dfc6dd",
+              "name": "Internal Server Error -- We had a problem with our server. Try again later.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "exclusion",
+                    "upload",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"records\": [\n    {\n      \"entity\": \"contact\",\n      \"contact_first_name\": \"Jane\",\n      \"contact_last_name\": \"Doe\",\n      \"contact_email\": \"jane@simplefake.org\",\n      \"org_company_name\": \"Zinc Holdings\",\n      \"org_website\": \"simplefake.org\"\n    },\n    {\n      \"entity\": \"org\",\n      \"org_company_name\": \"EarthStar\",\n      \"org_website\": \"earthstar.org\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"key_0\": [\n    \"string\",\n    \"string\"\n  ],\n  \"key_1\": [\n    \"string\",\n    \"string\"\n  ],\n  \"key_2\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://leadgenius.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "409b9bf4-a290-4e57-bc98-c262e70405ec",
+    "name": "LeadGenius Enrichment Campaigns Exclusion API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The LeadGenius public API is a RESTful API that sends and receives records from the LeadGenius Dashboard product. Records are associated to Campaigns in Dashboard and consist of Accounts that can optionally include related Contact records. A Campaign can be created in Dashboard using the Dashboard Wizard or via the API; any Campaign in Dashboard can be accessed using the API.\n\nTwo modes are offered. **Campaign (batch) enrichment** uploads records to a Campaign, LeadGenius enriches or appends contacts, and a webhook fires when records are finalized so they can be retrieved. **Rapid enrichment** submits a single account or contact (or a get_contacts request) for real-time enrichment and retrieves the enriched record by id.\n\nThis description was captured by the API Evangelist enrichment pipeline from the published LeadGenius API reference at https://docs.leadgenius.com/ — LeadGenius does not publish a machine readable OpenAPI definition. Every path, method, parameter, field and error code below is transcribed from that reference and its Python/JavaScript/cURL samples.\n\nContact Support:\n Name: LeadGenius Sales\n Email: sales@leadgenius.com",
+      "type": "text/plain"
+    }
+  }
+}

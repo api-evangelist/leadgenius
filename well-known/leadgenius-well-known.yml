@@ -1,36 +1,80 @@
-generated: '2026-07-19'
-method: searched
-source: live probe of the LeadGenius hosts
+generated: '2026-08-13'
+method: probed
+source: live probe of every LeadGenius host in apis.yml and the OpenAPI servers[] block
 description: >-
-  Probe of the /.well-known/ discovery surface on the LeadGenius production host. leadgenius.com
-  301-redirects to www.leadgenius.com, which returns 404 for every well-known path probed. The
-  documentation host (docs.leadgenius.com) is a static Slate site that answers every path with the
-  documentation HTML (a soft 404), so no well-known document is published there either.
+  Probe of the /.well-known/ discovery surface across every LeadGenius host. No well-known document
+  is served anywhere. leadgenius.com, www.leadgenius.com and api.leadgenius.com all resolve to the
+  same Webflow site and return a genuine 404 (88-byte body) for every well-known path.
+  docs.leadgenius.com is a static Slate documentation page that answers HTTP 200 with the same
+  142KB documentation HTML for every path requested, and app.leadgenius.com is a single-page app
+  that answers HTTP 200 with the same 2.7KB app shell — both are soft 404s, not documents. No
+  WellKnown or SecurityTxt pointer is emitted in apis.yml, because nothing was found.
+hits: 0
+documents: []
 hosts:
   - host: https://www.leadgenius.com
-    note: leadgenius.com 301-redirects here.
+    kind: marketing site (Webflow)
+    behavior: real 404s
+    note: leadgenius.com 301-redirects here; api.leadgenius.com resolves to the same site.
     documents:
-      - path: /.well-known/security.txt
-        status: 404
-      - path: /.well-known/openid-configuration
-        status: 404
-      - path: /.well-known/oauth-authorization-server
-        status: 404
-      - path: /.well-known/api-catalog
-        status: 404
-      - path: /.well-known/ai-plugin.json
-        status: 404
-  - host: https://docs.leadgenius.com
+      - {path: /.well-known/security.txt, status: 404}
+      - {path: /.well-known/openid-configuration, status: 404}
+      - {path: /.well-known/oauth-authorization-server, status: 404}
+      - {path: /.well-known/oauth-protected-resource, status: 404}
+      - {path: /.well-known/api-catalog, status: 404}
+      - {path: /.well-known/ai-plugin.json, status: 404}
+      - {path: /.well-known/agent-card.json, status: 404}
+      - {path: /.well-known/agent.json, status: 404}
+  - host: https://api.leadgenius.com
+    kind: marketing site (same Webflow origin as www)
+    behavior: real 404s
     note: >-
-      Static documentation host; all paths return HTTP 200 with the documentation HTML regardless of
-      the path requested, so no well-known document can be confirmed as published.
+      api.leadgenius.com is NOT an API host — it serves the marketing site. The real API base is
+      https://leadgenius.com/api/v1/.
     documents:
-      - path: /.well-known/security.txt
-        status: 200
-        confirmed: false
-        reason: soft 404 - response body is the documentation page, not a security.txt
-      - path: /.well-known/api-catalog
-        status: 200
-        confirmed: false
-        reason: soft 404 - response body is the documentation page
-documents: []
+      - {path: /.well-known/security.txt, status: 404}
+      - {path: /.well-known/openid-configuration, status: 404}
+      - {path: /.well-known/oauth-authorization-server, status: 404}
+      - {path: /.well-known/oauth-protected-resource, status: 404}
+      - {path: /.well-known/api-catalog, status: 404}
+      - {path: /.well-known/ai-plugin.json, status: 404}
+      - {path: /.well-known/agent-card.json, status: 404}
+      - {path: /.well-known/agent.json, status: 404}
+  - host: https://docs.leadgenius.com
+    kind: static documentation (Slate)
+    behavior: soft 404 — every path returns 200 with the identical 142041-byte documentation HTML
+    documents:
+      - {path: /.well-known/security.txt, status: 200, confirmed: false, reason: soft 404 - body is the documentation page}
+      - {path: /.well-known/openid-configuration, status: 200, confirmed: false, reason: soft 404 - body is the documentation page}
+      - {path: /.well-known/oauth-authorization-server, status: 200, confirmed: false, reason: soft 404 - body is the documentation page}
+      - {path: /.well-known/oauth-protected-resource, status: 200, confirmed: false, reason: soft 404 - body is the documentation page}
+      - {path: /.well-known/api-catalog, status: 200, confirmed: false, reason: soft 404 - body is the documentation page}
+      - {path: /.well-known/ai-plugin.json, status: 200, confirmed: false, reason: soft 404 - body is the documentation page}
+      - {path: /.well-known/agent-card.json, status: 200, confirmed: false, reason: soft 404 - body is the documentation page, not an AgentCard}
+      - {path: /.well-known/agent.json, status: 200, confirmed: false, reason: soft 404 - body is the documentation page, not an AgentCard}
+  - host: https://app.leadgenius.com
+    kind: single-page application
+    behavior: soft 404 — every path returns 200 with the identical 2679-byte app shell
+    documents:
+      - {path: /.well-known/security.txt, status: 200, confirmed: false, reason: soft 404 - body is the SPA shell}
+      - {path: /.well-known/agent-card.json, status: 200, confirmed: false, reason: soft 404 - body is the SPA shell, not an AgentCard}
+      - {path: /.well-known/agent.json, status: 200, confirmed: false, reason: soft 404 - body is the SPA shell, not an AgentCard}
+      - {path: /.well-known/oauth-authorization-server, status: 200, confirmed: false, reason: soft 404 - body is the SPA shell}
+      - {path: /.well-known/oauth-protected-resource, status: 200, confirmed: false, reason: soft 404 - body is the SPA shell}
+      - {path: /.well-known/api-catalog, status: 200, confirmed: false, reason: soft 404 - body is the SPA shell}
+adjacent:
+  - path: /llms.txt
+    host: https://www.leadgenius.com
+    status: 200
+    bytes: 1606
+    confirmed: false
+    reason: >-
+      A file IS served at /llms.txt, but its contents are robots.txt-style crawl directives
+      (User-Agent / Allow / Disallow / Crawl-delay), not the llms.txt format. It is an AEO artifact,
+      not a machine-readable index of the API. See llms/leadgenius-llms.txt for the generated one.
+  - path: /robots.txt
+    host: https://www.leadgenius.com
+    status: 200
+    note: >-
+      Comment header states it is "Optimized for AEO"; GPTBot, anthropic-ai, ClaudeBot and Claude-Web
+      each get an explicit "Allow: /" group. Agent crawling is deliberately permitted.
