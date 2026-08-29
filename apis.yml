@@ -193,6 +193,17 @@ apis:
     url: https://docs.leadgenius.com/#errors
   - type: Webhooks
     url: https://docs.leadgenius.com/#webhook
+- aid: leadgenius:leadgenius-leadgenius-enrichment-api-api
+  name: LeadGenius LeadGenius Enrichment API
+  description: >-
+    The LeadGenius Enrichment API API from LeadGenius — 0 operation(s) for leadgenius enrichment api.
+  humanURL: https://docs.leadgenius.com/
+  baseURL: https://leadgenius.com/api/v1/
+  tags:
+  - LeadGenius Enrichment API
+  properties:
+  - type: OpenAPI
+    url: openapi/leadgenius-leadgenius-enrichment-api-api-openapi.yml
 common:
   - type: DomainSecurity
     url: security/leadgenius-domain-security.yml

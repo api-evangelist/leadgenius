@@ -1,15 +1,12 @@
 {
   "provider": "leadgenius",
   "sources": [
-    "leadgenius-campaigns-api-openapi.yml",
-    "leadgenius-exclusion-api-openapi.yml",
-    "leadgenius-rapid-enrichment-api-openapi.yml",
-    "leadgenius-records-api-openapi.yml",
-    "leadgenius-usage-api-openapi.yml"
+    "_original/leadgenius-enrichment-api-openapi.yml"
   ],
   "outputs": [
     "leadgenius-campaigns-api-openapi.yml",
     "leadgenius-exclusion-api-openapi.yml",
+    "leadgenius-leadgenius-enrichment-api-api-openapi.yml",
     "leadgenius-rapid-enrichment-api-openapi.yml",
     "leadgenius-records-api-openapi.yml",
     "leadgenius-usage-api-openapi.yml"
@@ -17,6 +14,17 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "leadgenius-enrichment-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "leadgenius-enrichment-api-openapi.yml: tagged webhooks POST recordFinalized -> LeadGenius Enrichment API",
+    "leadgenius-enrichment-api-openapi.yml: declared missing tag: LeadGenius Enrichment API"
+  ],
+  "skipped": [
+    "leadgenius-campaigns-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "leadgenius-exclusion-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "leadgenius-rapid-enrichment-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "leadgenius-records-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "leadgenius-usage-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

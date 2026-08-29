@@ -1,0 +1,70 @@
+openapi: 3.2.0
+info:
+  title: LeadGenius Enrichment API
+  version: v1
+  summary: RESTful API for B2B account and contact enrichment, contact append, exclusion lists and rapid (real-time) enrichment.
+  description: 'The LeadGenius public API is a RESTful API that sends and receives records from the LeadGenius Dashboard product. Records are associated to Campaigns in Dashboard and consist of Accounts that can optionally include related Contact records. A Campaign can be created in Dashboard using the Dashboard Wizard or via the API; any Campaign in Dashboard can be accessed using the API.
+
+
+    Two modes are offered. **Campaign (batch) enrichment** uploads records to a Campaign, LeadGenius enriches or appends contacts, and a webhook fires when records are finalized so they can be retrieved. **Rapid enrichment** submits a single account or contact (or a get_contacts request) for real-time enrichment and retrieves the enriched record by id.
+
+
+    This description was captured by the API Evangelist enrichment pipeline from the published LeadGenius API reference at https://docs.leadgenius.com/ — LeadGenius does not publish a machine readable OpenAPI definition. Every path, method, parameter, field and error code below is transcribed from that reference and its Python/JavaScript/cURL samples.'
+  termsOfService: https://www.leadgenius.com/legal/terms
+  contact:
+    name: LeadGenius Sales
+    email: sales@leadgenius.com
+    url: https://docs.leadgenius.com/
+servers:
+- url: https://leadgenius.com
+  description: Production
+security:
+- TokenAuth: []
+tags:
+- name: LeadGenius Enrichment API
+paths: {}
+webhooks:
+  recordFinalized:
+    post:
+      operationId: recordFinalizedWebhook
+      summary: Record finalized callback
+      description: When a campaign has a webhook_url set, LeadGenius sends a POST request with content-type application/json to that URL every time a record is finalized.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RecordFinalizedEvent'
+      responses:
+        '200':
+          description: Acknowledged by the receiving system.
+      tags:
+      - LeadGenius Enrichment API
+components:
+  schemas:
+    RecordFinalizedEvent:
+      type: object
+      properties:
+        slug:
+          type: string
+          description: Campaign slug/identifier on the LeadGenius platform.
+        records:
+          type: array
+          description: An array of finalized record ids.
+          items:
+            type: integer
+        uploaded:
+          type: integer
+          description: Total number of records uploaded to the campaign.
+        enriched:
+          type: integer
+          description: Total number of verified records uploaded to the campaign.
+        complete:
+          type: boolean
+          description: Flag indicating whether all uploaded records were verified.
+  securitySchemes:
+    TokenAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'LeadGenius uses API keys. Include the key in every request as `Authorization: Token {apikey}`.'

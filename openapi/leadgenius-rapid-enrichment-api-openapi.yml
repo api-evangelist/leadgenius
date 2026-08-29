@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: LeadGenius Enrichment Campaigns Rapid Enrichment API
+  title: LeadGenius Enrichment Rapid Enrichment API
   version: v1
   summary: RESTful API for B2B account and contact enrichment, contact append, exclusion lists and rapid (real-time) enrichment.
   description: 'The LeadGenius public API is a RESTful API that sends and receives records from the LeadGenius Dashboard product. Records are associated to Campaigns in Dashboard and consist of Accounts that can optionally include related Contact records. A Campaign can be created in Dashboard using the Dashboard Wizard or via the API; any Campaign in Dashboard can be accessed using the API.
@@ -155,6 +155,133 @@ paths:
           $ref: '#/components/responses/InternalServerError'
 components:
   schemas:
+    RapidContactsSelector:
+      type: object
+      required:
+      - contacts_per_company
+      - seniority
+      - department
+      properties:
+        contacts_per_company:
+          type: integer
+          minimum: 1
+          maximum: 10
+          description: 1 to 10 contacts can be requested for the org.
+        seniority:
+          $ref: '#/components/schemas/Seniority'
+        department:
+          $ref: '#/components/schemas/Department'
+    EnrichedRecord:
+      type: object
+      description: The supported output keys for a rapid-enrichment record.
+      properties:
+        org_annual_revenue:
+          type: string
+        org_city:
+          type: string
+        org_company_name:
+          type: string
+        org_country:
+          type: string
+        org_linkedin_url:
+          type: string
+        org_num_employees:
+          type: string
+        org_state:
+          type: string
+        org_street:
+          type: string
+        org_website:
+          type: string
+        org_zip_code:
+          type: string
+        contact_city:
+          type: string
+        contact_contact_skills_lg:
+          type: string
+        contact_contact_status_lg:
+          type: string
+        contact_country:
+          type: string
+        contact_department:
+          type: string
+        contact_email:
+          type: string
+        contact_first_name:
+          type: string
+        contact_job_title:
+          type: string
+        contact_last_name:
+          type: string
+        contact_linkedin_url:
+          type: string
+        contact_phone_number:
+          type: string
+        contact_seniority:
+          type: string
+        contact_previous_company:
+          type: string
+        contact_previous_company_linkedin_lg:
+          type: string
+        contact_previous_company_website_lg:
+          type: string
+    EnrichmentRequest:
+      type: object
+      properties:
+        id:
+          type: integer
+        status:
+          type: string
+          enum:
+          - scheduled
+          - in_progress
+          - erred
+          - cancelled
+          - ok
+        enrichment_type:
+          type: string
+          enum:
+          - contact
+          - account
+          - get_contacts
+        created:
+          type: string
+    Department:
+      type: string
+      description: Contact department selector.
+      enum:
+      - Business Development
+      - Consulting
+      - Design
+      - Education
+      - Engineering
+      - Executive
+      - Finance
+      - Health Services
+      - Human Resources
+      - Information Technology
+      - Legal
+      - Marketing
+      - Media and Communications
+      - Operations
+      - Product
+      - Sales
+    RapidEnrichmentRequest:
+      type: object
+      required:
+      - type
+      - data
+      properties:
+        type:
+          type: string
+          enum:
+          - contact
+          - account
+          - get_contacts
+        data:
+          $ref: '#/components/schemas/Record'
+        contacts:
+          $ref: '#/components/schemas/RapidContactsSelector'
     Record:
       type: object
       description: An Account record, optionally carrying related Contact fields.
@@ -211,42 +338,6 @@ components:
         contact_seniority:
           type: string
           description: The contact's seniority level (C-Level, VP, Director, Manager, Senior, Entry Level).
-    RapidEnrichmentRequest:
-      type: object
-      required:
-      - type
-      - data
-      properties:
-        type:
-          type: string
-          enum:
-          - contact
-          - account
-          - get_contacts
-        data:
-          $ref: '#/components/schemas/Record'
-        contacts:
-          $ref: '#/components/schemas/RapidContactsSelector'
-    Department:
-      type: string
-      description: Contact department selector.
-      enum:
-      - Business Development
-      - Consulting
-      - Design
-      - Education
-      - Engineering
-      - Executive
-      - Finance
-      - Health Services
-      - Human Resources
-      - Information Technology
-      - Legal
-      - Marketing
-      - Media and Communications
-      - Operations
-      - Product
-      - Sales
     Seniority:
       type: string
       description: Contact seniority selector.
@@ -267,106 +358,9 @@ components:
         type: array
         items:
           type: string
-    EnrichmentRequest:
-      type: object
-      properties:
-        id:
-          type: integer
-        status:
-          type: string
-          enum:
-          - scheduled
-          - in_progress
-          - erred
-          - cancelled
-          - ok
-        enrichment_type:
-          type: string
-          enum:
-          - contact
-          - account
-          - get_contacts
-        created:
-          type: string
-    EnrichedRecord:
-      type: object
-      description: The supported output keys for a rapid-enrichment record.
-      properties:
-        org_annual_revenue:
-          type: string
-        org_city:
-          type: string
-        org_company_name:
-          type: string
-        org_country:
-          type: string
-        org_linkedin_url:
-          type: string
-        org_num_employees:
-          type: string
-        org_state:
-          type: string
-        org_street:
-          type: string
-        org_website:
-          type: string
-        org_zip_code:
-          type: string
-        contact_city:
-          type: string
-        contact_contact_skills_lg:
-          type: string
-        contact_contact_status_lg:
-          type: string
-        contact_country:
-          type: string
-        contact_department:
-          type: string
-        contact_email:
-          type: string
-        contact_first_name:
-          type: string
-        contact_job_title:
-          type: string
-        contact_last_name:
-          type: string
-        contact_linkedin_url:
-          type: string
-        contact_phone_number:
-          type: string
-        contact_seniority:
-          type: string
-        contact_previous_company:
-          type: string
-        contact_previous_company_linkedin_lg:
-          type: string
-        contact_previous_company_website_lg:
-          type: string
-    RapidContactsSelector:
-      type: object
-      required:
-      - contacts_per_company
-      - seniority
-      - department
-      properties:
-        contacts_per_company:
-          type: integer
-          minimum: 1
-          maximum: 10
-          description: 1 to 10 contacts can be requested for the org.
-        seniority:
-          $ref: '#/components/schemas/Seniority'
-        department:
-          $ref: '#/components/schemas/Department'
   responses:
-    NotFound:
-      description: Not Found -- The specified resource could not be found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Unauthorized -- Your API key is invalid.
+    InternalServerError:
+      description: Internal Server Error -- We had a problem with our server. Try again later.
       content:
         application/json:
           schema:
@@ -383,8 +377,14 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    InternalServerError:
-      description: Internal Server Error -- We had a problem with our server. Try again later.
+    Unauthorized:
+      description: Unauthorized -- Your API key is invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Not Found -- The specified resource could not be found.
       content:
         application/json:
           schema:
