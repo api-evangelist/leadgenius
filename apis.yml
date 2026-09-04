@@ -25,15 +25,17 @@ deliveryModel:
   method: derived
 accessModel:
   pricing: unknown
-  onboarding: self-serve
+  onboarding: unknown
   trial: false
   try_now: false
   public: false
-  label: Self-serve signup
-  confidence: medium
+  label: Unknown
+  confidence: low
   source:
   - authentication
-  generated: '2026-07-22'
+  - rate-limits
+  - security
+  generated: '2026-09-03'
   method: derived
 image: https://cdn.prod.website-files.com/688ff1b200d9d4cf5019d518/68906378722ec3a7e64df624_logo.svg
 url: https://raw.githubusercontent.com/api-evangelist/leadgenius/refs/heads/main/apis.yml
@@ -261,8 +263,9 @@ common:
     url: data-model/leadgenius-data-model.yml
   - type: Webhooks
     url: asyncapi/leadgenius-enrichment-webhooks.yml
-  - type: MCPServer
+  - type: X-MCPServerCandidate
     url: mcp/leadgenius-mcp.yml
+    note: 'Renamed from MCPServer 2026-09-03 (roadmap#247): the manifest self-describes as status: candidate — a tool list derived from the published API contracts, not an existing server. The scorer already read the manifest and reported mcp_server correctly; the MCPServer type was crediting the artifact-type surfaces with a server that does not exist.'
   - type: AgentSkill
     url: skills/_index.yml
   - type: LLMsTxt
