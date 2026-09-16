@@ -1,16 +1,15 @@
 aid: leadgenius
 name: LeadGenius
-description: >-
-  LeadGenius provides precision B2B contact and account intelligence for go-to-market teams,
-  combining machine learning with a global team of human researchers so every contact and account is
-  human-verified before delivery. The company reports 400+ customers, coverage across 42 countries
-  and 3 billion+ data records served, with products spanning contact behavioral intelligence,
-  advanced contact tags, contact monitoring, social tracking, buying-committee coverage and privacy
-  compliance. Its developer surface is the LeadGenius Enrichment API — a RESTful, API-key
-  authenticated service documented at docs.leadgenius.com that supports company enrichment, contact
-  enrichment and contact append, offered both as asynchronous Campaigns (create a campaign, upload up
-  to 200 records per request, receive a record-finalized webhook, retrieve the enriched results) and
-  as real-time "rapid enrichment" requests submitted and collected by id.
+description: LeadGenius provides precision B2B contact and account intelligence for go-to-market teams,
+  combining machine learning with a global team of human researchers so every contact and account is human-verified
+  before delivery. The company reports 400+ customers, coverage across 42 countries and 3 billion+ data
+  records served, with products spanning contact behavioral intelligence, advanced contact tags, contact
+  monitoring, social tracking, buying-committee coverage and privacy compliance. Its developer surface
+  is the LeadGenius Enrichment API — a RESTful, API-key authenticated service documented at docs.leadgenius.com
+  that supports company enrichment, contact enrichment and contact append, offered both as asynchronous
+  Campaigns (create a campaign, upload up to 200 records per request, receive a record-finalized webhook,
+  retrieve the enriched results) and as real-time "rapid enrichment" requests submitted and collected
+  by id.
 deliveryModel:
   model: saas
   open_source: false
@@ -42,38 +41,38 @@ url: https://raw.githubusercontent.com/api-evangelist/leadgenius/refs/heads/main
 x-type: company
 x-source: vc-portfolio
 x-backed-by:
-  - 500-global
-  - initialized-capital
+- 500-global
+- initialized-capital
 specificationVersion: '0.23'
 created: '2026-07-17'
-modified: '2026-08-13'
+modified: '2026-09-16'
 tags:
-  - Company
-  - Data Enrichment
-  - Lead Generation
-  - Sales
-  - Marketing
-  - B2B Data
-  - Contact Data
-  - Firmographics
-  - Go-To-Market
-  - Account Based Marketing
+- Company
+- Data Enrichment
+- Lead Generation
+- Sales
+- Marketing
+- B2B Data
+- Contact Data
+- Firmographics
+- Go-To-Market
+- Account Based Marketing
 tags_raw:
-  - Company
-  - Data Enrichment
-  - Lead Generation
-  - Sales
-  - Marketing
-  - B2B Data
-  - Contact Data
-  - Firmographics
-  - Go To Market
-  - Account Based Marketing
+- Company
+- Data Enrichment
+- Lead Generation
+- Sales
+- Marketing
+- B2B Data
+- Contact Data
+- Firmographics
+- Go To Market
+- Account Based Marketing
 maintainers:
-  - FN: Kin Lane
-    email: kin@apievangelist.com
-  - FN: APIs.json
-    email: info@apis.io
+- FN: Kin Lane
+  email: kin@apievangelist.com
+- FN: APIs.json
+  email: info@apis.io
 apis:
 - aid: leadgenius:leadgenius-campaigns-api
   name: LeadGenius Campaigns API
@@ -196,9 +195,9 @@ apis:
   - type: Webhooks
     url: https://docs.leadgenius.com/#webhook
 - aid: leadgenius:leadgenius-leadgenius-enrichment-api-api
-  name: LeadGenius LeadGenius Enrichment API
-  description: >-
-    The LeadGenius Enrichment API API from LeadGenius — 0 operation(s) for leadgenius enrichment api.
+  name: LeadGenius Enrichment API
+  description: The LeadGenius Enrichment API API from LeadGenius — 0 operation(s) for leadgenius enrichment
+    api.
   humanURL: https://docs.leadgenius.com/
   baseURL: https://leadgenius.com/api/v1/
   tags:
@@ -207,81 +206,83 @@ apis:
   - type: OpenAPI
     url: openapi/leadgenius-leadgenius-enrichment-api-api-openapi.yml
 common:
-  - type: DomainSecurity
-    url: security/leadgenius-domain-security.yml
-  - type: AgenticAccess
-    url: agentic-access/leadgenius-agentic-access.yml
-  - type: Website
-    url: https://leadgenius.com
-  - type: DeveloperPortal
-    url: https://docs.leadgenius.com/
-  - type: Documentation
-    url: https://docs.leadgenius.com/
-  - type: APIReference
-    url: https://docs.leadgenius.com/
-  - type: GettingStarted
-    url: https://docs.leadgenius.com/#leadgenius-api-docs
-  - type: SignUp
-    url: https://app.leadgenius.com/sign-up
-  - type: Login
-    url: https://app.leadgenius.com/sign-in
-  - type: Support
-    url: https://support.leadgenius.com/hc/en-us
-  - type: Blog
-    url: https://www.leadgenius.com/resources
-  - type: TermsOfService
-    url: https://www.leadgenius.com/legal/terms
-  - type: PrivacyPolicy
-    url: https://www.leadgenius.com/legal/privacy
-  - type: Compliance
-    url: https://www.leadgenius.com/legal/ccpa
-  - type: GitHubOrganization
-    url: https://github.com/leadgenius
-  - type: LinkedIn
-    url: https://www.linkedin.com/company/leadgenius/
-  - type: Twitter
-    url: https://twitter.com/leadgenius
-  - type: CaseStudies
-    url: https://www.leadgenius.com/customers
-  - type: OpenAPI
-    url: openapi/_original/leadgenius-enrichment-api-openapi.yml
-  - type: Overlay
-    url: overlays/leadgenius-enrichment-api-overlay.yaml
-  - type: Authentication
-    url: authentication/leadgenius-authentication.yml
-  - type: Conventions
-    url: conventions/leadgenius-conventions.yml
-  - type: ErrorCatalog
-    url: errors/leadgenius-problem-types.yml
-  - type: RateLimits
-    url: rate-limits/leadgenius-rate-limits.yml
-  - type: Lifecycle
-    url: lifecycle/leadgenius-lifecycle.yml
-  - type: Conformance
-    url: conformance/leadgenius-conformance.yml
-  - type: DataModel
-    url: data-model/leadgenius-data-model.yml
-  - type: Webhooks
-    url: asyncapi/leadgenius-enrichment-webhooks.yml
-  - type: X-MCPServerCandidate
-    url: mcp/leadgenius-mcp.yml
-    note: 'Renamed from MCPServer 2026-09-03 (roadmap#247): the manifest self-describes as status: candidate — a tool list derived from the published API contracts, not an existing server. The scorer already read the manifest and reported mcp_server correctly; the MCPServer type was crediting the artifact-type surfaces with a server that does not exist.'
-  - type: AgentSkill
-    url: skills/_index.yml
-  - type: LLMsTxt
-    url: llms/leadgenius-llms.txt
-  - type: Packages
-    url: packages/leadgenius-packages.yml
-  - type: Plans
-    url: plans/leadgenius-plans-pricing.yml
+- type: DomainSecurity
+  url: security/leadgenius-domain-security.yml
+- type: AgenticAccess
+  url: agentic-access/leadgenius-agentic-access.yml
+- type: Website
+  url: https://leadgenius.com
+- type: DeveloperPortal
+  url: https://docs.leadgenius.com/
+- type: Documentation
+  url: https://docs.leadgenius.com/
+- type: APIReference
+  url: https://docs.leadgenius.com/
+- type: GettingStarted
+  url: https://docs.leadgenius.com/#leadgenius-api-docs
+- type: SignUp
+  url: https://app.leadgenius.com/sign-up
+- type: Login
+  url: https://app.leadgenius.com/sign-in
+- type: Support
+  url: https://support.leadgenius.com/hc/en-us
+- type: Blog
+  url: https://www.leadgenius.com/resources
+- type: TermsOfService
+  url: https://www.leadgenius.com/legal/terms
+- type: PrivacyPolicy
+  url: https://www.leadgenius.com/legal/privacy
+- type: Compliance
+  url: https://www.leadgenius.com/legal/ccpa
+- type: GitHubOrganization
+  url: https://github.com/leadgenius
+- type: LinkedIn
+  url: https://www.linkedin.com/company/leadgenius/
+- type: Twitter
+  url: https://twitter.com/leadgenius
+- type: CaseStudies
+  url: https://www.leadgenius.com/customers
+- type: OpenAPI
+  url: openapi/_original/leadgenius-enrichment-api-openapi.yml
+- type: Overlay
+  url: overlays/leadgenius-enrichment-api-overlay.yaml
+- type: Authentication
+  url: authentication/leadgenius-authentication.yml
+- type: Conventions
+  url: conventions/leadgenius-conventions.yml
+- type: ErrorCatalog
+  url: errors/leadgenius-problem-types.yml
+- type: RateLimits
+  url: rate-limits/leadgenius-rate-limits.yml
+- type: Lifecycle
+  url: lifecycle/leadgenius-lifecycle.yml
+- type: Conformance
+  url: conformance/leadgenius-conformance.yml
+- type: DataModel
+  url: data-model/leadgenius-data-model.yml
+- type: Webhooks
+  url: asyncapi/leadgenius-enrichment-webhooks.yml
+- type: X-MCPServerCandidate
+  url: mcp/leadgenius-mcp.yml
+  note: 'Renamed from MCPServer 2026-09-03 (roadmap#247): the manifest self-describes as status: candidate
+    — a tool list derived from the published API contracts, not an existing server. The scorer already
+    read the manifest and reported mcp_server correctly; the MCPServer type was crediting the artifact-type
+    surfaces with a server that does not exist.'
+- type: AgentSkill
+  url: skills/_index.yml
+- type: LLMsTxt
+  url: llms/leadgenius-llms.txt
+- type: Packages
+  url: packages/leadgenius-packages.yml
+- type: Plans
+  url: plans/leadgenius-plans-pricing.yml
 x-enrichment:
   date: '2026-08-13'
   status: enriched
   artifacts_added: 2
   pass: local-v1
-  note: >-
-    Prior WellKnown pointer removed - well-known/leadgenius-well-known.yml records a 404 on every
-    path across all four LeadGenius hosts, so the pointer was asserting a surface the provider does
-    not serve. No SDKs pointer (no first-party package exists), no Idempotency pointer (not
-    supported), no StatusPage/Deprecation/Security/Roadmap/Postman/Pricing pointers (no such page is
-    published), no AgentCard (probe missed on every host).
+  note: Prior WellKnown pointer removed - well-known/leadgenius-well-known.yml records a 404 on every
+    path across all four LeadGenius hosts, so the pointer was asserting a surface the provider does not
+    serve. No SDKs pointer (no first-party package exists), no Idempotency pointer (not supported), no
+    StatusPage/Deprecation/Security/Roadmap/Postman/Pricing pointers (no such page is published), no AgentCard
+    (probe missed on every host).
