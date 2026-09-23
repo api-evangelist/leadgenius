@@ -53,17 +53,7 @@ authentication:
   detail: authentication/leadgenius-authentication.yml
 deployment:
   mode: none
-  endpoint: null
-  install: null
-  package: null
-  auth: unknown
   verified: derived
   tools: 11
-  checked: '2026-08-13'
-  source: >-
-    Re-confirmed 2026-08-13: no hosted MCP endpoint and no stdio package. Searched the LeadGenius
-    docs and site, the GitHub LeadGenius organization (1 repo, a 2016 CSS website), the public npm
-    registry and the web. The only npm packages matching "leadgenius" belong to a third-party
-    product ("LeadGenius Pro", last.leadgenius.app) — see packages/leadgenius-packages.yml. Nobody
-    ships an MCP server for the LeadGenius Enrichment API; the tools below remain a derived
-    candidate surface.
+  checked: '2026-08-12'
+  source: catalog MCP census

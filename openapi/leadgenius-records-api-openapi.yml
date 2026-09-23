@@ -3,13 +3,7 @@ info:
   title: LeadGenius Enrichment Records API
   version: v1
   summary: RESTful API for B2B account and contact enrichment, contact append, exclusion lists and rapid (real-time) enrichment.
-  description: 'The LeadGenius public API is a RESTful API that sends and receives records from the LeadGenius Dashboard product. Records are associated to Campaigns in Dashboard and consist of Accounts that can optionally include related Contact records. A Campaign can be created in Dashboard using the Dashboard Wizard or via the API; any Campaign in Dashboard can be accessed using the API.
-
-
-    Two modes are offered. **Campaign (batch) enrichment** uploads records to a Campaign, LeadGenius enriches or appends contacts, and a webhook fires when records are finalized so they can be retrieved. **Rapid enrichment** submits a single account or contact (or a get_contacts request) for real-time enrichment and retrieves the enriched record by id.
-
-
-    This description was captured by the API Evangelist enrichment pipeline from the published LeadGenius API reference at https://docs.leadgenius.com/ — LeadGenius does not publish a machine readable OpenAPI definition. Every path, method, parameter, field and error code below is transcribed from that reference and its Python/JavaScript/cURL samples.'
+  description: The LeadGenius public API is a RESTful API that sends and receives records from the LeadGenius Dashboard product.
   termsOfService: https://www.leadgenius.com/legal/terms
   contact:
     name: LeadGenius Sales
@@ -122,8 +116,14 @@ paths:
           $ref: '#/components/responses/InternalServerError'
 components:
   responses:
-    InternalServerError:
-      description: Internal Server Error -- We had a problem with our server. Try again later.
+    NotFound:
+      description: Not Found -- The specified resource could not be found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Unauthorized -- Your API key is invalid.
       content:
         application/json:
           schema:
@@ -140,14 +140,8 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Unauthorized -- Your API key is invalid.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: Not Found -- The specified resource could not be found.
+    InternalServerError:
+      description: Internal Server Error -- We had a problem with our server. Try again later.
       content:
         application/json:
           schema:
@@ -166,26 +160,36 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/RetrievedRecord'
-    RetrievedRecord:
+    Error:
       type: object
+      description: 'Django-REST-framework style validation envelope — a map of field name to an array of messages, e.g. {"type": ["This field is required."]}.'
+      additionalProperties:
+        type: array
+        items:
+          type: string
+    RecordUploadRequest:
+      type: object
+      required:
+      - slug
+      - fields
+      - records
       properties:
-        finalized:
+        slug:
           type: string
-          description: The date the record was finalized.
-        created:
+          description: Campaign slug/identifier.
+        fields:
+          type: array
+          description: The field names to be enriched and returned.
+          items:
+            type: string
+        type:
           type: string
-          description: The date the record was created.
-        status:
-          type: string
-          description: The current status of the record.
-          enum:
-          - original
-          - finalized_complete
-          - finalized_incomplete
-          - finalized_unenriched
-          - finalized_cancelled
-        data:
-          $ref: '#/components/schemas/Record'
+          description: Upload type, e.g. datahub.
+        records:
+          type: array
+          description: Up to 200 Account/Contact records per request.
+          items:
+            $ref: '#/components/schemas/Record'
     Department:
       type: string
       description: Contact department selector.
@@ -206,6 +210,26 @@ components:
       - Operations
       - Product
       - Sales
+    RetrievedRecord:
+      type: object
+      properties:
+        finalized:
+          type: string
+          description: The date the record was finalized.
+        created:
+          type: string
+          description: The date the record was created.
+        status:
+          type: string
+          description: The current status of the record.
+          enum:
+          - original
+          - finalized_complete
+          - finalized_incomplete
+          - finalized_unenriched
+          - finalized_cancelled
+        data:
+          $ref: '#/components/schemas/Record'
     Record:
       type: object
       description: An Account record, optionally carrying related Contact fields.
@@ -262,36 +286,6 @@ components:
         contact_seniority:
           type: string
           description: The contact's seniority level (C-Level, VP, Director, Manager, Senior, Entry Level).
-    RecordUploadRequest:
-      type: object
-      required:
-      - slug
-      - fields
-      - records
-      properties:
-        slug:
-          type: string
-          description: Campaign slug/identifier.
-        fields:
-          type: array
-          description: The field names to be enriched and returned.
-          items:
-            type: string
-        type:
-          type: string
-          description: Upload type, e.g. datahub.
-        records:
-          type: array
-          description: Up to 200 Account/Contact records per request.
-          items:
-            $ref: '#/components/schemas/Record'
-    Error:
-      type: object
-      description: 'Django-REST-framework style validation envelope — a map of field name to an array of messages, e.g. {"type": ["This field is required."]}.'
-      additionalProperties:
-        type: array
-        items:
-          type: string
   parameters:
     CampaignSlug:
       name: slug
