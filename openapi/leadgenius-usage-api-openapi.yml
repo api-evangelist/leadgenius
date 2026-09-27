@@ -55,14 +55,26 @@ paths:
         '500':
           $ref: '#/components/responses/InternalServerError'
 components:
+  responses:
+    InternalServerError:
+      description: Internal Server Error -- We had a problem with our server. Try again later.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    TooManyRequests:
+      description: Too Many Requests -- You're exceeding your rate-limits (50 requests per minute).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Unauthorized -- Your API key is invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
-    Error:
-      type: object
-      description: 'Django-REST-framework style validation envelope — a map of field name to an array of messages, e.g. {"type": ["This field is required."]}.'
-      additionalProperties:
-        type: array
-        items:
-          type: string
     ApiUsageStats:
       type: object
       properties:
@@ -99,25 +111,13 @@ components:
         updated_at:
           type: string
           description: The date and time when these numbers were generated.
-  responses:
-    Unauthorized:
-      description: Unauthorized -- Your API key is invalid.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    TooManyRequests:
-      description: Too Many Requests -- You're exceeding your rate-limits (50 requests per minute).
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    InternalServerError:
-      description: Internal Server Error -- We had a problem with our server. Try again later.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+    Error:
+      type: object
+      description: 'Django-REST-framework style validation envelope — a map of field name to an array of messages, e.g. {"type": ["This field is required."]}.'
+      additionalProperties:
+        type: array
+        items:
+          type: string
   securitySchemes:
     TokenAuth:
       type: apiKey

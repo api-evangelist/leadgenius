@@ -54,6 +54,31 @@ paths:
         '500':
           $ref: '#/components/responses/InternalServerError'
 components:
+  responses:
+    InternalServerError:
+      description: Internal Server Error -- We had a problem with our server. Try again later.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    TooManyRequests:
+      description: Too Many Requests -- You're exceeding your rate-limits (50 requests per minute).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Unauthorized -- Your API key is invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: Bad Request -- Your request is invalid in some way.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
     Error:
       type: object
@@ -62,16 +87,6 @@ components:
         type: array
         items:
           type: string
-    ExclusionUploadRequest:
-      type: object
-      required:
-      - records
-      properties:
-        records:
-          type: array
-          description: The records to exclude. Accounts use entity org; contacts use entity contact.
-          items:
-            $ref: '#/components/schemas/ExclusionRecord'
     ExclusionRecord:
       type: object
       required:
@@ -98,31 +113,16 @@ components:
           type: string
         contact_last_name:
           type: string
-  responses:
-    Unauthorized:
-      description: Unauthorized -- Your API key is invalid.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: Bad Request -- Your request is invalid in some way.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    TooManyRequests:
-      description: Too Many Requests -- You're exceeding your rate-limits (50 requests per minute).
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    InternalServerError:
-      description: Internal Server Error -- We had a problem with our server. Try again later.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+    ExclusionUploadRequest:
+      type: object
+      required:
+      - records
+      properties:
+        records:
+          type: array
+          description: The records to exclude. Accounts use entity org; contacts use entity contact.
+          items:
+            $ref: '#/components/schemas/ExclusionRecord'
   securitySchemes:
     TokenAuth:
       type: apiKey
