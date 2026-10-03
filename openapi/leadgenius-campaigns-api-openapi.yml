@@ -104,17 +104,13 @@ paths:
           $ref: '#/components/responses/InternalServerError'
 components:
   schemas:
-    Campaign:
+    Error:
       type: object
-      properties:
-        slug:
+      description: 'Django-REST-framework style validation envelope — a map of field name to an array of messages, e.g. {"type": ["This field is required."]}.'
+      additionalProperties:
+        type: array
+        items:
           type: string
-          description: Campaign slug/identifier on the LeadGenius platform.
-        name:
-          type: string
-        webhook_url:
-          type: string
-          format: uri
     Department:
       type: string
       description: Contact department selector.
@@ -135,26 +131,17 @@ components:
       - Operations
       - Product
       - Sales
-    Seniority:
-      type: string
-      description: Contact seniority selector.
-      enum:
-      - VP+
-      - Director+
-      - Manager+
-      - C-level
-      - VP
-      - Director
-      - Manager
-      - Senior
-      - Entry level
-    Error:
+    Campaign:
       type: object
-      description: 'Django-REST-framework style validation envelope — a map of field name to an array of messages, e.g. {"type": ["This field is required."]}.'
-      additionalProperties:
-        type: array
-        items:
+      properties:
+        slug:
           type: string
+          description: Campaign slug/identifier on the LeadGenius platform.
+        name:
+          type: string
+        webhook_url:
+          type: string
+          format: uri
     ContactRequirement:
       type: object
       properties:
@@ -170,6 +157,19 @@ components:
             type: string
         condition:
           type: string
+    Seniority:
+      type: string
+      description: Contact seniority selector.
+      enum:
+      - VP+
+      - Director+
+      - Manager+
+      - C-level
+      - VP
+      - Director
+      - Manager
+      - Senior
+      - Entry level
     CampaignCreateRequest:
       type: object
       required:
@@ -202,9 +202,29 @@ components:
         companies:
           type: object
           description: Company filters for a net-new company campaign. Currently only zip_code filtering is supported.
+  parameters:
+    CampaignSlug:
+      name: slug
+      in: path
+      required: true
+      description: Campaign slug/identifier on the LeadGenius platform.
+      schema:
+        type: string
   responses:
-    NotFound:
-      description: Not Found -- The specified resource could not be found.
+    Unauthorized:
+      description: Unauthorized -- Your API key is invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: Forbidden -- The resource requested is hidden for administrators only.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: Bad Request -- Your request is invalid in some way.
       content:
         application/json:
           schema:
@@ -221,32 +241,12 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    Forbidden:
-      description: Forbidden -- The resource requested is hidden for administrators only.
+    NotFound:
+      description: Not Found -- The specified resource could not be found.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Unauthorized -- Your API key is invalid.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: Bad Request -- Your request is invalid in some way.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-  parameters:
-    CampaignSlug:
-      name: slug
-      in: path
-      required: true
-      description: Campaign slug/identifier on the LeadGenius platform.
-      schema:
-        type: string
   securitySchemes:
     TokenAuth:
       type: apiKey
