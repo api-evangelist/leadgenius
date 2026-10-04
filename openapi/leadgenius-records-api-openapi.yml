@@ -115,34 +115,51 @@ paths:
         '500':
           $ref: '#/components/responses/InternalServerError'
 components:
+  responses:
+    Unauthorized:
+      description: Unauthorized -- Your API key is invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Not Found -- The specified resource could not be found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: Internal Server Error -- We had a problem with our server. Try again later.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: Bad Request -- Your request is invalid in some way.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    TooManyRequests:
+      description: Too Many Requests -- You're exceeding your rate-limits (50 requests per minute).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
-    Error:
-      type: object
-      description: 'Django-REST-framework style validation envelope — a map of field name to an array of messages, e.g. {"type": ["This field is required."]}.'
-      additionalProperties:
-        type: array
-        items:
-          type: string
-    RetrievedRecord:
+    CampaignRetrieveResponse:
       type: object
       properties:
-        finalized:
-          type: string
-          description: The date the record was finalized.
-        created:
-          type: string
-          description: The date the record was created.
         status:
           type: string
-          description: The current status of the record.
+          description: Job status.
           enum:
-          - original
-          - finalized_complete
-          - finalized_incomplete
-          - finalized_unenriched
-          - finalized_cancelled
-        data:
-          $ref: '#/components/schemas/Record'
+          - Completed
+          - In-Progress
+        records:
+          type: array
+          items:
+            $ref: '#/components/schemas/RetrievedRecord'
     Department:
       type: string
       description: Contact department selector.
@@ -163,6 +180,13 @@ components:
       - Operations
       - Product
       - Sales
+    Error:
+      type: object
+      description: 'Django-REST-framework style validation envelope — a map of field name to an array of messages, e.g. {"type": ["This field is required."]}.'
+      additionalProperties:
+        type: array
+        items:
+          type: string
     Record:
       type: object
       description: An Account record, optionally carrying related Contact fields.
@@ -219,19 +243,6 @@ components:
         contact_seniority:
           type: string
           description: The contact's seniority level (C-Level, VP, Director, Manager, Senior, Entry Level).
-    CampaignRetrieveResponse:
-      type: object
-      properties:
-        status:
-          type: string
-          description: Job status.
-          enum:
-          - Completed
-          - In-Progress
-        records:
-          type: array
-          items:
-            $ref: '#/components/schemas/RetrievedRecord'
     RecordUploadRequest:
       type: object
       required:
@@ -255,6 +266,26 @@ components:
           description: Up to 200 Account/Contact records per request.
           items:
             $ref: '#/components/schemas/Record'
+    RetrievedRecord:
+      type: object
+      properties:
+        finalized:
+          type: string
+          description: The date the record was finalized.
+        created:
+          type: string
+          description: The date the record was created.
+        status:
+          type: string
+          description: The current status of the record.
+          enum:
+          - original
+          - finalized_complete
+          - finalized_incomplete
+          - finalized_unenriched
+          - finalized_cancelled
+        data:
+          $ref: '#/components/schemas/Record'
   parameters:
     CampaignSlug:
       name: slug
@@ -263,37 +294,6 @@ components:
       description: Campaign slug/identifier on the LeadGenius platform.
       schema:
         type: string
-  responses:
-    Unauthorized:
-      description: Unauthorized -- Your API key is invalid.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: Bad Request -- Your request is invalid in some way.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    InternalServerError:
-      description: Internal Server Error -- We had a problem with our server. Try again later.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    TooManyRequests:
-      description: Too Many Requests -- You're exceeding your rate-limits (50 requests per minute).
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: Not Found -- The specified resource could not be found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   securitySchemes:
     TokenAuth:
       type: apiKey

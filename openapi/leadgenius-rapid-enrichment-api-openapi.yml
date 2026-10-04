@@ -149,70 +149,6 @@ paths:
           $ref: '#/components/responses/InternalServerError'
 components:
   schemas:
-    Error:
-      type: object
-      description: 'Django-REST-framework style validation envelope — a map of field name to an array of messages, e.g. {"type": ["This field is required."]}.'
-      additionalProperties:
-        type: array
-        items:
-          type: string
-    Department:
-      type: string
-      description: Contact department selector.
-      enum:
-      - Business Development
-      - Consulting
-      - Design
-      - Education
-      - Engineering
-      - Executive
-      - Finance
-      - Health Services
-      - Human Resources
-      - Information Technology
-      - Legal
-      - Marketing
-      - Media and Communications
-      - Operations
-      - Product
-      - Sales
-    RapidContactsSelector:
-      type: object
-      required:
-      - contacts_per_company
-      - seniority
-      - department
-      properties:
-        contacts_per_company:
-          type: integer
-          minimum: 1
-          maximum: 10
-          description: 1 to 10 contacts can be requested for the org.
-        seniority:
-          $ref: '#/components/schemas/Seniority'
-        department:
-          $ref: '#/components/schemas/Department'
-    EnrichmentRequest:
-      type: object
-      properties:
-        id:
-          type: integer
-        status:
-          type: string
-          enum:
-          - scheduled
-          - in_progress
-          - erred
-          - cancelled
-          - ok
-        enrichment_type:
-          type: string
-          enum:
-          - contact
-          - account
-          - get_contacts
-        created:
-          type: string
     Record:
       type: object
       description: An Account record, optionally carrying related Contact fields.
@@ -269,6 +205,86 @@ components:
         contact_seniority:
           type: string
           description: The contact's seniority level (C-Level, VP, Director, Manager, Senior, Entry Level).
+    Error:
+      type: object
+      description: 'Django-REST-framework style validation envelope — a map of field name to an array of messages, e.g. {"type": ["This field is required."]}.'
+      additionalProperties:
+        type: array
+        items:
+          type: string
+    Department:
+      type: string
+      description: Contact department selector.
+      enum:
+      - Business Development
+      - Consulting
+      - Design
+      - Education
+      - Engineering
+      - Executive
+      - Finance
+      - Health Services
+      - Human Resources
+      - Information Technology
+      - Legal
+      - Marketing
+      - Media and Communications
+      - Operations
+      - Product
+      - Sales
+    RapidEnrichmentRequest:
+      type: object
+      required:
+      - type
+      - data
+      properties:
+        type:
+          type: string
+          enum:
+          - contact
+          - account
+          - get_contacts
+        data:
+          $ref: '#/components/schemas/Record'
+        contacts:
+          $ref: '#/components/schemas/RapidContactsSelector'
+    RapidContactsSelector:
+      type: object
+      required:
+      - contacts_per_company
+      - seniority
+      - department
+      properties:
+        contacts_per_company:
+          type: integer
+          minimum: 1
+          maximum: 10
+          description: 1 to 10 contacts can be requested for the org.
+        seniority:
+          $ref: '#/components/schemas/Seniority'
+        department:
+          $ref: '#/components/schemas/Department'
+    EnrichmentRequest:
+      type: object
+      properties:
+        id:
+          type: integer
+        status:
+          type: string
+          enum:
+          - scheduled
+          - in_progress
+          - erred
+          - cancelled
+          - ok
+        enrichment_type:
+          type: string
+          enum:
+          - contact
+          - account
+          - get_contacts
+        created:
+          type: string
     EnrichedRecord:
       type: object
       description: The supported output keys for a rapid-enrichment record.
@@ -323,22 +339,6 @@ components:
           type: string
         contact_previous_company_website_lg:
           type: string
-    RapidEnrichmentRequest:
-      type: object
-      required:
-      - type
-      - data
-      properties:
-        type:
-          type: string
-          enum:
-          - contact
-          - account
-          - get_contacts
-        data:
-          $ref: '#/components/schemas/Record'
-        contacts:
-          $ref: '#/components/schemas/RapidContactsSelector'
     Seniority:
       type: string
       description: Contact seniority selector.
@@ -359,8 +359,8 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: Bad Request -- Your request is invalid in some way.
+    NotFound:
+      description: Not Found -- The specified resource could not be found.
       content:
         application/json:
           schema:
@@ -371,14 +371,14 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    TooManyRequests:
-      description: Too Many Requests -- You're exceeding your rate-limits (50 requests per minute).
+    BadRequest:
+      description: Bad Request -- Your request is invalid in some way.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    NotFound:
-      description: Not Found -- The specified resource could not be found.
+    TooManyRequests:
+      description: Too Many Requests -- You're exceeding your rate-limits (50 requests per minute).
       content:
         application/json:
           schema:

@@ -56,13 +56,6 @@ paths:
           $ref: '#/components/responses/InternalServerError'
 components:
   schemas:
-    Error:
-      type: object
-      description: 'Django-REST-framework style validation envelope — a map of field name to an array of messages, e.g. {"type": ["This field is required."]}.'
-      additionalProperties:
-        type: array
-        items:
-          type: string
     ApiUsageStats:
       type: object
       properties:
@@ -99,6 +92,13 @@ components:
         updated_at:
           type: string
           description: The date and time when these numbers were generated.
+    Error:
+      type: object
+      description: 'Django-REST-framework style validation envelope — a map of field name to an array of messages, e.g. {"type": ["This field is required."]}.'
+      additionalProperties:
+        type: array
+        items:
+          type: string
   responses:
     Unauthorized:
       description: Unauthorized -- Your API key is invalid.
