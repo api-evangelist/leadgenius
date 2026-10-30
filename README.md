@@ -64,34 +64,145 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-LeadGenius provides precision B2B contact and account intelligence for go-to-market teams, combining machine learning with a global team of human researchers so every contact and account is human-verified before delivery.
+LeadGenius provides precision B2B contact and account intelligence for go-to-market teams, combining machine learning with a global team of human researchers so every contact and account is human-verified before delivery. The company reports 400+ customers, coverage across 42 countries and 3 billion+ data records served, with products spanning contact behavioral intelligence, advanced contact tags, contact monitoring, social tracking, buying-committee coverage and privacy compliance. Its developer surface is the LeadGenius Enrichment API — a RESTful, API-key authenticated service documented at docs.leadgenius.com that supports company enrichment, contact enrichment and contact append, offered both as asynchronous Campaigns (create a campaign, upload up to 200 records per request, receive a record-finalized webhook, retrieve the enriched results) and as real-time "rapid enrichment" requests submitted and collected by id.
 
-Its developer surface is the **LeadGenius Enrichment API** — a RESTful, API-key authenticated service documented at [docs.leadgenius.com](https://docs.leadgenius.com/) covering company enrichment, contact enrichment and contact append, in two modes:
+**Areas:** Company · Data Enrichment · Lead Generation · Sales · Marketing · B2B Data · Contact Data · Firmographics · Go-To-Market · Account Based Marketing
 
-- **Campaigns (batch)** — create a campaign, upload up to 200 records per request, receive the `record.finalized` webhook, retrieve the enriched results.
-- **Rapid enrichment (real time)** — submit a single account, contact or `get_contacts` request and collect the enriched record by id.
+## LeadGenius on APIs.io
 
-## Artifacts
+Everything profiled for LeadGenius is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/leadgenius/](https://apis.io/providers/leadgenius/)** — or go straight to one of the APIs or properties below.
 
-| Artifact | File |
+### APIs (6)
+
+- [LeadGenius Campaigns API](https://apis.io/apis/leadgenius/leadgenius-campaigns-api/) — Create, update and inspect enrichment campaigns.
+- [LeadGenius Exclusion API](https://apis.io/apis/leadgenius/leadgenius-exclusion-api/) — Submit accounts and contacts that should be excluded from enrichment.
+- [LeadGenius Rapid Enrichment API](https://apis.io/apis/leadgenius/leadgenius-rapid-enrichment-api/) — Real-time single-record account/contact enrichment and contact append.
+- [LeadGenius Records API](https://apis.io/apis/leadgenius/leadgenius-records-api/) — Upload records to a campaign and retrieve enriched results.
+- [LeadGenius Usage API](https://apis.io/apis/leadgenius/leadgenius-usage-api/) — Subscription usage and enrichment request statistics.
+- [LeadGenius Enrichment API](https://apis.io/apis/leadgenius/leadgenius-leadgenius-enrichment-api-api/) — The LeadGenius Enrichment API API from LeadGenius — 0 operation(s) for leadgenius enrichment api.
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### AsyncAPI (1)
+
+Event-driven and webhook contracts.
+
+- [Leadgenius Enrichment Webhooks](https://apis.io/asyncapis/leadgenius/leadgenius-enrichment-webhooks/)
+
+#### MCP servers (1)
+
+Model Context Protocol servers that expose the API to agents.
+
+- [leadgenius](https://apis.io/servers/leadgenius/leadgenius/)
+
+#### Agentic access (1)
+
+Which operations an agent can call, which act, and which need a human in the loop.
+
+- [Leadgenius Agentic Access](https://apis.io/agentic-access/leadgenius/leadgenius-agentic-access/)
+
+#### Collections (5)
+
+Postman and Open Collection request collections.
+
+- [LeadGenius Enrichment Campaigns API](https://apis.io/collections/leadgenius/open-leadgenius-campaigns-api/)
+- [LeadGenius Enrichment Campaigns Exclusion API](https://apis.io/collections/leadgenius/open-leadgenius-exclusion-api/)
+- [LeadGenius Enrichment Campaigns Rapid Enrichment API](https://apis.io/collections/leadgenius/open-leadgenius-rapid-enrichment-api/)
+- [LeadGenius Enrichment Campaigns Records API](https://apis.io/collections/leadgenius/open-leadgenius-records-api/)
+- [LeadGenius Enrichment Campaigns Usage API](https://apis.io/collections/leadgenius/open-leadgenius-usage-api/)
+
+#### Overlays (1)
+
+OpenAPI overlays, including conversational phrasing for each operation.
+
+- [Leadgenius Enrichment Api Overlay](https://apis.io/overlays/leadgenius/leadgenius-enrichment-api-overlay/)
+
+#### Security (2)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Leadgenius Authentication](https://apis.io/security/leadgenius/leadgenius-authentication/)
+- [Leadgenius Domain Security](https://apis.io/security/leadgenius/leadgenius-domain-security/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Leadgenius Plans Pricing](https://apis.io/plans/leadgenius/leadgenius-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Leadgenius Rate Limits](https://apis.io/rate-limits/leadgenius/leadgenius-rate-limits/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://leadgenius.com)
+- [Documentation](https://docs.leadgenius.com/)
+- [Getting started](https://docs.leadgenius.com/#leadgenius-api-docs)
+- [API reference](https://docs.leadgenius.com/)
+- [Sign up](https://app.leadgenius.com/sign-up)
+- [Support](https://support.leadgenius.com/hc/en-us)
+- [Blog](https://www.leadgenius.com/resources)
+- [Compliance](https://www.leadgenius.com/legal/ccpa)
+- [Terms of service](https://www.leadgenius.com/legal/terms)
+- [Privacy policy](https://www.leadgenius.com/legal/privacy)
+- [GitHub](https://github.com/leadgenius)
+
+## API Evangelist rating
+
+**Kin Score 35.7** — thin · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
 |---|---|
-| OpenAPI 3.1 (captured from the docs) | `openapi/leadgenius-enrichment-api-openapi.yml` |
-| Overlay | `overlays/leadgenius-enrichment-api-overlay.yaml` |
-| Authentication | `authentication/leadgenius-authentication.yml` |
-| Conventions | `conventions/leadgenius-conventions.yml` |
-| Error catalog | `errors/leadgenius-problem-types.yml` |
-| Rate limits | `rate-limits/leadgenius-rate-limits.yml` |
-| Lifecycle | `lifecycle/leadgenius-lifecycle.yml` |
-| Conformance | `conformance/leadgenius-conformance.yml` |
-| Data model | `data-model/leadgenius-data-model.yml` |
-| Webhook catalog | `asyncapi/leadgenius-enrichment-webhooks.yml` |
-| MCP candidate tools | `mcp/leadgenius-mcp.yml` |
-| Agent skills | `skills/_index.yml` |
-| Agentic access | `agentic-access/leadgenius-agentic-access.yml` |
-| Domain security | `security/leadgenius-domain-security.yml` |
-| Well-known probe | `well-known/leadgenius-well-known.yml` |
-| llms.txt | `llms/leadgenius-llms.txt` |
+| Discoverability | 73.2 |
+| Contract quality | 57.9 |
+| Contract governance | 4.5 |
+| Operational transparency | 23.7 |
+| Developer ergonomics | 8.9 |
+| Access clarity | 35.5 |
 
-LeadGenius does not publish a machine-readable OpenAPI definition; the spec here was transcribed from the published reference by the API Evangelist enrichment pipeline.
+**Agent readiness 33.3** — agent-ready
 
-Backed by: 500-global, initialized-capital — https://leadgenius.com
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | documented (partial credit) |
+| OpenAPI Examples | partial |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | yes |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | yes |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 29.4** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/leadgenius/](https://apis.io/providers/leadgenius/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for LeadGenius: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/leadgenius/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
